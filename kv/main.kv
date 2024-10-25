@@ -936,18 +936,16 @@
     size_hint_y: 1
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1  # Background color for the whole app
+            rgba: 0.95, 0.95, 0.95, 1  # Background color for the whole app
         Rectangle:
             pos: self.pos
             size: self.size
 
-    # Title
     BoxLayout:
         size_hint_y: None
         height: 50
         padding: 5
         spacing: 10
-        size_hint_y: 1
         canvas.before:
             Color:
                 rgba: 0.2, 0.6, 0.86, 1  # Background color for title
@@ -959,21 +957,21 @@
             font_size: '24sp'
             bold: True
             color: 1, 1, 1, 1  # White text color
+    
 
-    # Profile section
     BoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
         height: 100
         padding: 5
         spacing: 10
-        size_hint_y: 1
         canvas.before:
             Color:
                 rgba: 1, 1, 1, 1  # Background color for profile section
-            Rectangle:
+            RoundedRectangle:
                 pos: self.pos
                 size: self.size
+                radius: [10]
         Image:
             source: 'avatar.png'
             size_hint_x: None
@@ -984,48 +982,69 @@
             valign: 'middle'
             color: 0, 0, 0, 1  # Black text color
 
-    # Data fields
     BoxLayout:
         orientation: 'vertical'
         padding: 5
         spacing: 10
-        size_hint_y: 1
         canvas.before:
             Color:
                 rgba: 1, 1, 1, 1  # Background color for data fields section
-            Rectangle:
+            RoundedRectangle:
                 pos: self.pos
                 size: self.size
+                radius: [10]
         
-        Label:
-            text: 'Tinggi Badan'
-            font_size: '16sp'
-            size_hint_y: None
-            color: 0, 0, 0, 1  # Black text color
+        BoxLayout:
+            size_hint_y: 1
+            height: 40
+            Label:
+                text: 'Tinggi Badan'
+                font_size: '16sp'
+                color: 0, 0, 0, 1  # Black text color
+                valign: 'top'  # Move text up slightly
 
-        Label:
-            text: 'Berat Badan'
-            font_size: '16sp'
-            color: 0, 0, 0, 1  # Black text color
+        BoxLayout:
+            size_hint_y: 1
+            height: 40
+            Label:
+                text: 'Berat Badan'
+                font_size: '16sp'
+                color: 0, 0, 0, 1  # Black text color
+                valign: 'top'  # Move text up slightly
 
-        Label:
-            text: 'Tekanan Darah'
-            font_size: '16sp'
-            color: 0, 0, 0, 1  # Black text color
+        BoxLayout:
+            size_hint_y: 1
+            height: 40
+            Label:
+                text: 'Tekanan Darah'
+                font_size: '16sp'
+                color: 0, 0, 0, 1  # Black text color
+                valign: 'top'  # Move text up slightly
 
-        Label:
-            text: 'Kadar gula darah'
-            font_size: '16sp'
-            color: 0, 0, 0, 1  # Black text color
+        BoxLayout:
+            size_hint_y: 1
+            height: 40
+            Label:
+                text: 'Kadar gula darah'
+                font_size: '16sp'
+                color: 0, 0, 0, 1  # Black text color
+                valign: 'top'  # Move text up slightly
 
-        Label:
-            text: 'Kolestrol'
-            font_size: '16sp'
-            color: 0, 0, 0, 1  # Black text color
+        BoxLayout:
+            size_hint_y: 1
+            height: 40
+            Label:
+                text: 'Kolestrol'
+                font_size: '16sp'
+                color: 0, 0, 0, 1  # Black text color
+                valign: 'top'  # Move text up slightly
 
-        Label:
-            text: 'Riwayat Penyakit'
-            font_size: '16sp'
-            color: 0, 0, 0, 1  # Black text color
-
-
+        BoxLayout:
+            size_hint_y: 1
+            height: 40
+            Label:
+                text: 'Riwayat Penyakit'
+                font_size: '16sp'
+                color: 0, 0, 0, 1  # Black text color
+                valign: 'top'  # Move text up slightly
+  
