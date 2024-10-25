@@ -1,6 +1,6 @@
 <LoginScreen>:
     name: 'page_one'
-
+    
     BoxLayout:
         orientation: 'vertical'
         padding: [20, 20, 20, 20]
@@ -153,6 +153,48 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            width: 360
+            height: '50dp'
+            padding: '5dp'
+            canvas.before:
+                Color:
+                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            Button:
+                text: 'back'  # Arrow left
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
+                on_press: app.root.current = 'page_one'
+
+            Label:
+                text: 'Pendaftaran'
+                size_hint: 1, None
+                height: '40dp'
+                font_size: '20sp'
+                bold: True
+                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+
+            Button:
+                text: '⋮'  # Three dots
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
+        
         Widget:
             size_hint_x: 0.08
 
@@ -207,16 +249,6 @@
                 color: [0, 0, 0, 1]
                 font_size: 11
                 text: 'ingat saya'
-
-        Button:
-            text: "kembali"
-            size_hint_y: None
-            height: 30
-            background_normal: ''
-            background_color: (0, 0, 0, 0)
-            color: (0, 0, 1, 1)
-            italic: True
-            on_press: app.root.current = 'page_one'
 
         BoxLayout:
             orientation: 'horizontal'

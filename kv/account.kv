@@ -2,7 +2,7 @@
     name: 'account'
     BoxLayout:
         orientation: 'vertical'
-        padding: [20, 50, 20, 20]
+        padding: [20, 0, 20, 20]
         spacing: 20
         canvas.before:
             Color:
@@ -10,6 +10,46 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
+        
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            width: 360
+            height: '50dp'
+            padding: '5dp'
+            canvas.before:
+                Color:
+                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Button:
+                text: 'back'  # Arrow left
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
+                on_press: app.root.current = 'page_one'
+
+            Label:
+                text: 'Pendaftaran'
+                size_hint: 1, None
+                height: '40dp'
+                font_size: '20sp'
+                bold: True
+                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+
+            Button:
+                text: '⋮'  # Three dots
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
 
         Label:
             text: 'Pilih Akun'

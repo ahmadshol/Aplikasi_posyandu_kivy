@@ -27,7 +27,7 @@ auth = firebase.auth()
 db = firebase.database()
 
 # Set window size for mobile-like experience
-Window.size = (320, 640)
+Window.size = (360, 640)
 
 # Custom widget classes
 class BoxRounded(BoxLayout):

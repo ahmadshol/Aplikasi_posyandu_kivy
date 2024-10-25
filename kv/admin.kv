@@ -77,8 +77,9 @@
                 # Icons and text below them
                 BoxLayout:
                     orientation: 'vertical'
-                    Image:
-                        source: 'img/konsultasi.png'
+                    ClickableImage:
+                        source: 'img/konsultasi.png' 
+                        on_press: app.root.current = 'account'
                         size_hint: None, None
                         size: '40dp', '40dp'
                         allow_stretch: True  # Ensure the image stretches
@@ -90,8 +91,9 @@
                         color: 0, 0, 0, 1
                 BoxLayout:
                     orientation: 'vertical'
-                    Image:
-                        source: 'img/location (1) 1.png'
+                    ClickableImage:
+                        source: 'img/konsultasi.png' 
+                        on_press: app.root.current = 'account'
                         size_hint: None, None
                         size: '40dp', '40dp'
                         allow_stretch: True  # Ensure the image stretches
@@ -103,8 +105,9 @@
                         color: 0, 0, 0, 1
                 BoxLayout:
                     orientation: 'vertical'
-                    Image:
-                        source: 'img/imun 1.png'
+                    ClickableImage:
+                        source: 'img/konsultasi.png' 
+                        on_press: app.root.current = 'account'
                         size_hint: None, None
                         size: '40dp', '40dp'
                         allow_stretch: True  # Ensure the image stretches
