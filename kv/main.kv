@@ -1047,4 +1047,71 @@
                 font_size: '16sp'
                 color: 0, 0, 0, 1  # Black text color
                 valign: 'top'  # Move text up slightly
-  
+
+<PatientList>:
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        padding: [5, 5, 5, 5]
+        Button:
+            text: '<'
+            size_hint_x: None
+            width: 50
+        Label:
+            text: 'Data Pasien'
+            font_size: 20
+            bold: True
+            color: 1, 1, 1, 1
+        Button:
+            text: '⋮'
+            size_hint_x: None
+            width: 50
+
+    ScrollView:
+        BoxLayout:
+            id: patient_list
+            orientation: 'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+            padding: [5, 5, 5, 5]
+            spacing: 10
+
+            # Patient 1
+            BoxLayout:
+                size_hint_y: None
+                height: 80
+                padding: [5, 5, 5, 5]
+                spacing: 10
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # White background for card
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10]
+                Image:
+                    source: 'avatar.png'
+                    size_hint_x: None
+                    width: 30
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: 'Rohmad Rafi N'
+                        font_size: 16
+                        bold: True
+                    Label:
+                        text: 'Lansia'
+
+            # Add more patients as needed
+            BoxLayout:
+                size_hint_y: None
+                height: 80
+                padding: [5, 5, 5, 5]
+                spacing: 10
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # White background for card
