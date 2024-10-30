@@ -55,6 +55,12 @@ class RegistrationScreen(Screen):
 class AdminScreen(Screen):
     pass
 
+class QueueScreen(Screen):
+    pass
+
+class DataLansiaScreen(Screen):
+    pass
+
 class ClickableBox(ButtonBehavior, BoxLayout):
     def __init__(self, user_data, **kwargs):
         super().__init__(**kwargs)
@@ -130,7 +136,7 @@ class AccountScreen(Screen):
 class MyApp(App):
     def build(self):
         # Load all kv files
-        kv_files = ['main.kv', 'home.kv', 'login.kv', 'registrasi.kv', 'account.kv', 'admin.kv']
+        kv_files = ['main.kv', 'home.kv', 'login.kv', 'registrasi.kv', 'account.kv', 'admin.kv','antrian.kv','datalansia.kv']
         for kv_file in kv_files:
             kv_file_path = os.path.join(os.path.dirname(__file__), 'kv', kv_file)
             Builder.load_file(kv_file_path)

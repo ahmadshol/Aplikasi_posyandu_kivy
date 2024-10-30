@@ -1,0 +1,163 @@
+<DataLansiaScreen>:
+
+    name:'data'
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        size_hint_y: 1
+        canvas.before:
+            Color:
+                rgba: 0.95, 0.95, 0.95, 1  # Background color for the whole app
+            Rectangle:
+                pos: self.pos
+                size: self.size
+            
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            width: 360
+            height: '50dp'
+            padding: '5dp'
+            canvas.before:
+                Color:
+                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Button:
+                text: '<'  # Arrow left
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
+                on_press: app.root.current = 'home'
+
+            Label:
+                text: 'Data Lansia'
+                size_hint: 1, None
+                height: '40dp'
+                font_size: '20sp'
+                bold: True
+                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+
+            Button:
+                text: '⋮'  # Three dots
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
+
+        BoxLayout:
+            size_hint_y: None
+            height: 50
+            padding: 5
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.6, 0.86, 1  # Background color for title
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'Data Lansia'
+                font_size: '24sp'
+                bold: True
+                color: 1, 1, 1, 1  # White text color
+        
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 100
+            padding: 5
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # Background color for profile section
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10]
+            Image:
+                source: 'img/avatar.png'
+                size_hint_x: None
+                width: 100
+            Label:
+                text: 'Rohmad Rafi'
+                font_size: '18sp'
+                pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                valign: 'middle'
+                color: 0, 0, 0, 1  # Black text color
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 5
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # Background color for data fields section
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10]
+            
+            BoxLayout:
+                size_hint_y: 1
+                height: 40
+                Label:
+                    text: 'Tinggi Badan'
+                    font_size: '16sp'
+                    color: 0, 0, 0, 1  # Black text color
+                    valign: 'top'  # Move text up slightly
+
+            BoxLayout:
+                size_hint_y: 1
+                height: 40
+                Label:
+                    text: 'Berat Badan'
+                    font_size: '16sp'
+                    color: 0, 0, 0, 1  # Black text color
+                    valign: 'top'  # Move text up slightly
+
+            BoxLayout:
+                size_hint_y: 1
+                height: 40
+                Label:
+                    text: 'Tekanan Darah'
+                    font_size: '16sp'
+                    color: 0, 0, 0, 1  # Black text color
+                    valign: 'top'  # Move text up slightly
+
+            BoxLayout:
+                size_hint_y: 1
+                height: 40
+                Label:
+                    text: 'Kadar gula darah'
+                    font_size: '16sp'
+                    color: 0, 0, 0, 1  # Black text color
+                    valign: 'top'  # Move text up slightly
+
+            BoxLayout:
+                size_hint_y: 1
+                height: 40
+                Label:
+                    text: 'Kolestrol'
+                    font_size: '16sp'
+                    color: 0, 0, 0, 1  # Black text color
+                    valign: 'top'  # Move text up slightly
+
+            BoxLayout:
+                size_hint_y: 1
+                height: 40
+                Label:
+                    text: 'Riwayat Penyakit'
+                    font_size: '16sp'
+                    color: 0, 0, 0, 1  # Black text color
+                    valign: 'top'  # Move text up slightly
