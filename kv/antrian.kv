@@ -4,9 +4,15 @@
 
     BoxLayout:
         orientation: 'vertical'
-        padding: 5
-        spacing: 5
+        padding: 10
+        spacing: 10
         size_hint_y: 1
+        canvas.before:
+            Color:
+                rgba: 0.95, 0.95, 0.95, 1  # Background color for the whole app
+            Rectangle:
+                pos: self.pos
+                size: self.size
         BoxLayout:
             orientation: 'horizontal'
             size_hint: None, None
@@ -28,10 +34,10 @@
                 background_normal: ''
                 background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
                 color: (1, 1, 1, 1)  # Text color
-                on_press: app.root.current = 'home'
+                on_press: app.root.current = 'admin'
 
             Label:
-                text: 'Pendaftaran'
+                text: 'ANTRIAN'
                 size_hint: 1, None
                 height: '40dp'
                 font_size: '20sp'
@@ -53,7 +59,7 @@
                 ssize_hint: None, 1
                 height: '20dp'
                 bold: True
-                color: 1, 1, 1, 1
+                color: 0, 0, 0, 1
                 font_size: 40
 
         # First Entry
@@ -78,6 +84,7 @@
 
             BoxLayout:
                 orientation: 'vertical'
+                padding: ('0dp', '10dp', '0dp', '10dp')
                 Label:
                     text: 'Imunisasi Pertama'
                     size_hint_y: None
@@ -87,13 +94,14 @@
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    font_size: 25
+                    font_size: 20
                 Label:
                     text: 'Nama: Rohmad Rafi'
                     color: 0, 0, 0, 1
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
+                    spacing: '10dp'
                 Label:
                     text: 'Tempat: Posyandu Flamboyan'
                     color: 0, 0, 0, 1
@@ -136,8 +144,9 @@
 
             BoxLayout:
                 orientation: 'vertical'
+                padding: ('0dp', '10dp', '0dp', '10dp')
                 Label:
-                    text: 'Imunisasi Pertama'
+                    text: 'Imunisasi Kedua'
                     size_hint_y: None
                     height: '20dp'
                     bold: True
@@ -145,7 +154,7 @@
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    font_size: 25
+                    font_size: 20
                 Label:
                     text: 'Nama: Rohmad Rafi'
                     color: 0, 0, 0, 1
@@ -194,8 +203,9 @@
 
             BoxLayout:
                 orientation: 'vertical'
+                padding: ('0dp', '10dp', '0dp', '10dp')
                 Label:
-                    text: 'Imunisasi Pertama'
+                    text: 'Imunisasi Ketiga'
                     size_hint_y: None
                     height: '20dp'
                     bold: True
@@ -203,7 +213,7 @@
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    font_size: 25
+                    font_size: 20
                 Label:
                     text: 'Nama: Rohmad Rafi'
                     color: 0, 0, 0, 1
@@ -252,8 +262,9 @@
 
             BoxLayout:
                 orientation: 'vertical'
+                padding: ('0dp', '10dp', '0dp', '10dp')
                 Label:
-                    text: 'Imunisasi Pertama'
+                    text: 'Imunisasi Keempat'
                     size_hint_y: None
                     height: '20dp'
                     bold: True
@@ -261,7 +272,7 @@
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    font_size: 25
+                    font_size: 20
                 Label:
                     text: 'Nama :'
                     color: 0, 0, 0, 1

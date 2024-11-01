@@ -62,7 +62,7 @@
                     pos: self.pos
 
             GridLayout:
-                cols: 3
+                cols: 4
                 padding: '10dp'
                 spacing: '5dp'
                 size_hint_y: None
@@ -78,36 +78,50 @@
                 BoxLayout:
                     orientation: 'vertical'
                     ClickableImage:
-                        source: 'img/konsultasi.png' 
-                        on_press: app.root.current = 'account'
+                        source: 'img/pendafftaran.png' 
+                        on_press: app.root.current = 'pasien'
                         size_hint: None, None
                         size: '40dp', '40dp'
                         allow_stretch: True  # Ensure the image stretches
                         size_hint_x: 1
                     Label:
-                        text: 'Konsultasi'
+                        text: 'Data pasien'
                         font_size: '12dp'
                         halign: 'center'
                         color: 0, 0, 0, 1
                 BoxLayout:
                     orientation: 'vertical'
                     ClickableImage:
-                        source: 'img/konsultasi.png' 
-                        on_press: app.root.current = 'account'
+                        source: 'img/pendafftaran.png' 
+                        on_press: app.root.current = 'datauser'
                         size_hint: None, None
                         size: '40dp', '40dp'
                         allow_stretch: True  # Ensure the image stretches
                         size_hint_x: 1
                     Label:
-                        text: 'Lokasi'
+                        text: 'Data user'
+                        font_size: '12dp'
+                        halign: 'center'
+                        color: 0, 0, 0, 1        
+                BoxLayout:
+                    orientation: 'vertical'
+                    ClickableImage:
+                        source: 'img/antrian 1.png' 
+                        on_press: app.root.current = 'antrian'
+                        size_hint: None, None
+                        size: '40dp', '40dp'
+                        allow_stretch: True  # Ensure the image stretches
+                        size_hint_x: 1
+                    Label:
+                        text: 'Antrian'
                         font_size: '12dp'
                         halign: 'center'
                         color: 0, 0, 0, 1
                 BoxLayout:
                     orientation: 'vertical'
                     ClickableImage:
-                        source: 'img/konsultasi.png' 
-                        on_press: app.root.current = 'account'
+                        source: 'img/imun 1.png' 
+                        on_press: app.root.current = 'imun'
                         size_hint: None, None
                         size: '40dp', '40dp'
                         allow_stretch: True  # Ensure the image stretches
@@ -159,6 +173,7 @@
 
             # Card for Sholahudin
             ClickBox:
+                target_screen: 'data'
                 orientation: 'horizontal'
                 spacing: 10
                 padding: 10
@@ -195,6 +210,7 @@
             
 
             ClickBox:
+                target_screen: 'databalita'
                 orientation: 'horizontal'
                 spacing: 10
                 padding: 10
@@ -243,8 +259,10 @@
                 font_size: '40dp'
 
 <ClickBox@ButtonBehavior+BoxLayout>:
-    on_release: app.root.current = 'data'
-
+    target_screen: ''  # Properti untuk menentukan layar tujuan
+    on_release:
+        app.root.current = self.target_screen  # Navigasi berdasarkan target_screen
+        
 <ClickableImage>:
     allow_stretch: True
     size_hint_x: 0.1
