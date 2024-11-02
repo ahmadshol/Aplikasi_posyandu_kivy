@@ -10,6 +10,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.graphics import Color, RoundedRectangle
 from kivy.properties import StringProperty
+from kivy.properties import ObjectProperty
 import pyrebase
 
 # Firebase configuration
@@ -59,9 +60,6 @@ class AdminScreen(Screen):
 class DataLansiaScreen(Screen):
     pass
 
-class DaftarScreen(Screen):
-    pass
-
 class ImunisasiScreen(Screen):
     pass
 
@@ -70,6 +68,22 @@ class RiwayatImunScreen(Screen):
 
 class DatabalitaScreen(Screen):
     pass 
+class AddBalitaScreen(Screen):
+    pass
+class AddLansiaScreen(Screen):
+    pass
+class DaftarScreen(Screen):
+    lansia_checkbox = ObjectProperty(None)
+    balita_checkbox = ObjectProperty(None)
+
+    def go_to_next_screen(self):
+        if self.lansia_checkbox.active:
+            self.manager.current = 'addlansia'
+        elif self.balita_checkbox.active:
+            self.manager.current = 'addbalita'
+        else:
+            # Anda mungkin ingin menambahkan alert atau penanganan error di sini
+            print("Silakan pilih Lansia atau Balita.")
 
 class QueueScreen(Screen):
     def on_enter(self):

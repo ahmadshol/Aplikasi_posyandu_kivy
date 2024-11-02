@@ -7,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.lang import Builder
 import os
 import pyrebase
+from kivy.properties import ObjectProperty
 
 firebaseConfig = {
     "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
@@ -27,8 +28,24 @@ Window.size = (360, 640)
 class MyScreenManager(ScreenManager):
     pass
 
-class DaftarScreen(Screen):
+class AddBalitaScreen(Screen):
     pass
+
+class AddLansiaScreen(Screen):
+    pass
+
+class DaftarScreen(Screen):
+    lansia_checkbox = ObjectProperty(None)
+    balita_checkbox = ObjectProperty(None)
+
+    def go_to_next_screen(self):
+        if self.lansia_checkbox.active:
+            self.manager.current = 'addlansia'
+        elif self.balita_checkbox.active:
+            self.manager.current = 'addbalita'
+        else:
+            # Anda mungkin ingin menambahkan alert atau penanganan error di sini
+            print("Silakan pilih Lansia atau Balita.")
 
 class daftarApp(App):
     def build(self):
