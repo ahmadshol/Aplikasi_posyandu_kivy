@@ -1,7 +1,6 @@
 <QueueScreen>:
 
     name:'antrian'
-
     BoxLayout:
         orientation: 'vertical'
         padding: 10
@@ -13,290 +12,98 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
+            
         BoxLayout:
             orientation: 'horizontal'
-            size_hint: None, None
-            pos_hint: {'center_x': 0.5,'center_y': 0.5}
-            width: 360
+            size_hint_y: None
             height: '50dp'
             padding: '5dp'
             canvas.before:
                 Color:
-                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
-                Rectangle:
+                    rgba: 0.8, 0.8, 0.8, 1  # Warna abu-abu
+                RoundedRectangle:
                     size: self.size
                     pos: self.pos
+                    radius: [10, 10, 10, 10]
+
             Button:
-                text: '<'  # Arrow left
+                text: '<'  # Tanda panah kiri
                 size_hint: None, None
                 width: '50dp'
                 height: '40dp'
                 background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
-                on_press: app.root.current = 'admin'
+                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
+                color: 1, 1, 1, 1  # Warna teks
+                on_press: app.root.current = 'home'
 
             Label:
-                text: 'ANTRIAN'
+                text: 'Antrian'
                 size_hint: 1, None
                 height: '40dp'
                 font_size: '20sp'
                 bold: True
-                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: 0.1, 0.1, 0.1, 1  # Warna teks
 
             Button:
-                text: '⋮'  # Three dots
+                text: '⋮'  # Tiga titik vertikal
                 size_hint: None, None
                 width: '50dp'
                 height: '40dp'
                 background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
+                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
+                color: 1, 1, 1, 1  # Warna teks
+
         BoxLayout:
-            orientation: 'horizontal'
+            orientation: 'vertical'
+            padding: [20, 20, 20, 20]
+            spacing: 15
+            canvas.before:
+                Color:
+                    rgba: 0.95, 0.95, 0.98, 1  # Latar belakang yang lembut
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15]
+
             Label:
-                text: 'ANTRIAN'
-                ssize_hint: None, 1
-                height: '20dp'
+                id: queue_label
+                text: "Ambil Antrian"
+                font_size: 28
+                color: 0.1, 0.1, 0.3, 1  # Warna teks gelap untuk kontras
                 bold: True
-                color: 0, 0, 0, 1
-                font_size: 40
-
-        # First Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            halign: 'center'
-            valign: 'middle'
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
-
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Pertama'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama: Rohmad Rafi'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    spacing: '10dp'
-                Label:
-                    text: 'Tempat: Posyandu Flamboyan'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal: 09 Juli 2024'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-
-            Label:
-                text: 'Antrian 01'
-                size_hint_x: None
-                width: '60dp'
+                size_hint_y: None
+                height: self.texture_size[1] + 10
                 halign: 'center'
                 valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
+                text_size: self.width, None
 
-        # Second Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
-
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Kedua'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama: Rohmad Rafi'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tempat: Posyandu Flamboyan'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal: 09 Juli 2024'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+            Button:
+                text: "Ambil Antrian"
+                font_size: 22
+                size_hint_y: None
+                height: 55
+                background_color: 0.2, 0.6, 1, 1  # Warna biru untuk tombol utama
+                color: 1, 1, 1, 1  # Teks putih untuk kontras dengan latar
+                bold: True
+                on_release: root.get_queue()
 
             Label:
-                text: 'Antrian 02'
-                size_hint_x: None
-                width: '60dp'
+                id: taken_queue_label
+                text: "Nomor Antrian yang Diambil:"
+                font_size: 20
+                color: 0.2, 0.2, 0.4, 1
+                bold: True
                 halign: 'center'
                 valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
+                size_hint_y: None
+                height: self.texture_size[1] + 15
+                text_size: self.width, None
 
-        # Third Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
-
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Ketiga'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama: Rohmad Rafi'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tempat: Posyandu Flamboyan'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal: 09 Juli 2024'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-
-            Label:
-                text: 'Antrian 03'
-                size_hint_x: None
-                width: '60dp'
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
-
-        # Empty Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
-
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Keempat'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama :'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tempat :'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal :'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-
-            Label:
-                text: 'Antrian'
-                size_hint_x: None
-                width: '60dp'
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
+            Button:
+                text: "Ke Halaman Admin"
+                font_size: 20
+                size_hint_y: None
+                height: 55
+                background_color: 0.15, 0.45, 0.85, 1  # Biru gelap untuk variasi tombol sekunder
+                color: 1, 1, 1, 1
+                on_release: app.root.current = "admin"

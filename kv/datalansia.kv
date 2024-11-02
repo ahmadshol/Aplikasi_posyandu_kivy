@@ -16,43 +16,43 @@
             
         BoxLayout:
             orientation: 'horizontal'
-            size_hint: None, None
-            pos_hint: {'center_x': 0.5,'center_y': 0.5}
-            width: 360
+            size_hint_y: None
             height: '50dp'
             padding: '5dp'
             canvas.before:
                 Color:
-                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
-                Rectangle:
+                    rgba: 0.8, 0.8, 0.8, 1  # Warna abu-abu
+                RoundedRectangle:
                     size: self.size
                     pos: self.pos
+                    radius: [10, 10, 10, 10]
+
             Button:
-                text: '<'  # Arrow left
+                text: '<'  # Tanda panah kiri
                 size_hint: None, None
                 width: '50dp'
                 height: '40dp'
                 background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
+                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
+                color: 1, 1, 1, 1  # Warna teks
                 on_press: app.root.current = 'home'
 
             Label:
-                text: 'Data Lansia'
+                text: 'Data lansia'
                 size_hint: 1, None
                 height: '40dp'
                 font_size: '20sp'
                 bold: True
-                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: 0.1, 0.1, 0.1, 1  # Warna teks
 
             Button:
-                text: '⋮'  # Three dots
+                text: '⋮'  # Tiga titik vertikal
                 size_hint: None, None
                 width: '50dp'
                 height: '40dp'
                 background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
+                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
+                color: 1, 1, 1, 1  # Warna teks
 
         BoxLayout:
             size_hint_y: None

@@ -56,9 +56,6 @@ class RegistrationScreen(Screen):
 class AdminScreen(Screen):
     pass
 
-class QueueScreen(Screen):
-    pass
-
 class DataLansiaScreen(Screen):
     pass
 
@@ -67,8 +64,79 @@ class DaftarScreen(Screen):
 
 class ImunisasiScreen(Screen):
     pass
+
+class RiwayatImunScreen(Screen):
+    pass
+
 class DatabalitaScreen(Screen):
     pass 
+
+class QueueScreen(Screen):
+    def on_enter(self):
+        # Tampilkan nomor antrian yang diambil
+        nomor_antrian = db.child("nomor_antrian").child(self.get_current_user_id()).get().val() or []
+        self.ids.taken_queue_label.text = "\n".join(nomor_antrian)
+
+    def get_current_user_id(self):
+        # Mengambil current user dari objek auth
+        user = auth.current_user  # Mengakses auth dari main
+        return user['localId'] if user else None
+
+    def get_user_name(self):
+        # Mendapatkan nama pengguna dari profil pengguna
+        user = auth.current_user  # Mengakses auth dari main
+        return user['displayName'] if user and 'displayName' in user else "User Tanpa Nama"
+
+    def get_queue(self):
+        user_id = self.get_current_user_id()
+        nomor_antrian = db.child("nomor_antrian").child(user_id).get().val() or []
+
+        if len(nomor_antrian) < 2:  # Cek jika sudah mengambil 2 antrian
+            count = db.child("queue/count").get().val()
+            if count and count > 0:
+                queue_number = count
+                db.child("queue").update({"count": count - 1})
+
+                user_name = self.get_user_name()  # Ambil nama pengguna
+                nomor_antrian.append(f"{user_name}: Antrian {queue_number}")  # Simpan dengan nama
+
+                try:
+                    db.child("nomor_antrian").child(user_id).set(nomor_antrian)  # Simpan ke nomor_antrian
+                    self.ids.queue_label.text = f"Antrian Diambil, Nomor: {queue_number}"
+                except Exception as e:
+                    self.ids.queue_label.text = f"Gagal mengambil antrian: {e}"
+            else:
+                self.ids.queue_label.text = "Antrian Habis"
+        else:
+            self.ids.queue_label.text = "Anda sudah mengambil 2 antrian."
+            
+class AdminAntrianScreen(Screen):
+    def on_enter(self):
+        # Ambil jumlah antrian dari database saat masuk
+        count = db.child("queue/count").get().val()
+        self.ids.queue_label.text = f"Jumlah Antrian: {count}"
+
+    def update_queue(self):
+        # Ambil jumlah dari input, update ke database
+        count = int(self.ids.queue_input.text)
+        db.child("queue").update({"count": count})
+        self.ids.queue_label.text = f"Jumlah Antrian: {count}"
+
+    def show_nomor_antrian(self):
+        # Ambil semua antrian yang telah diambil oleh semua pengguna
+        nomor_antrian = db.child("nomor_antrian").get().val()
+        if nomor_antrian:
+            display_text = ""
+            for user_id, queues in nomor_antrian.items():
+                for queue in queues:
+                    display_text += f"User ID: {user_id}, Antrian: {queue}\n"
+            self.ids.taken_queue_label.text = display_text
+        else:
+            self.ids.taken_queue_label.text = "Belum ada antrian yang diambil."
+    def show_remaining_queue(self):
+        # Menampilkan sisa antrian di admin
+        remaining_count = db.child("queue/count").get().val()
+        self.ids.remaining_queue_label.text = f"Sisa Antrian: {remaining_count}"
 
 class PatientItem(BoxLayout):
     name = StringProperty()
@@ -193,7 +261,7 @@ class AccountScreen(Screen):
 
 class MyApp(App):
     def build(self):
-        kv_files = ['main.kv', 'home.kv', 'login.kv', 'registrasi.kv', 'account.kv', 'admin.kv','antrian.kv','datalansia.kv','pendaftaran.kv','datapasien.kv','datauser.kv','imunisasi.kv','databalita.kv']
+        kv_files = ['main.kv', 'home.kv', 'login.kv', 'registrasi.kv', 'account.kv', 'admin.kv','antrian.kv','datalansia.kv','pendaftaran.kv','datapasien.kv','datauser.kv','imunisasi.kv','databalita.kv','adminantrian.kv']
         for kv_file in kv_files:
             kv_file_path = os.path.join(os.path.dirname(__file__), 'kv', kv_file)
             Builder.load_file(kv_file_path)
@@ -235,6 +303,6 @@ class MyApp(App):
             Popup(title='Registration Successful', content=Label(text=f'Registration successful for {role}'), size_hint=(None, None), size=(400, 200)).open()
         except Exception as e:
             Popup(title='Registration Failed', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200)).open()
-
+            
 if __name__ == '__main__':
     MyApp().run()

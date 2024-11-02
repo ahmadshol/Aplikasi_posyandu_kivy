@@ -1,0 +1,134 @@
+<AdminAntrianScreen>:
+    name: 'admantrian'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        size_hint_y: 1
+        canvas.before:
+            Color:
+                rgba: 0.95, 0.95, 0.95, 1  # Background color for the whole app
+            Rectangle:
+                pos: self.pos
+                size: self.size
+            
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            width: 360
+            height: '50dp'
+            padding: '5dp'
+            canvas.before:
+                Color:
+                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Button:
+                text: '<'  # Arrow left
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
+                on_press: app.root.current = 'admin'
+
+            Label:
+                text: 'Antrian imunisasi'
+                size_hint: 1, None
+                height: '40dp'
+                font_size: '20sp'
+                bold: True
+                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+
+            Button:
+                text: '⋮'  # Three dots
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: (1, 1, 1, 1)  # Text color
+        BoxLayout:
+            orientation: 'vertical'
+            padding: [20, 20, 20, 20]
+            spacing: 15
+            canvas.before:
+                Color:
+                    rgba: 0.95, 0.95, 0.95, 1  # Warna latar belakang
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10]
+
+            Label:
+                id: queue_label
+                text: "Jumlah Antrian: 0"
+                font_size: 26
+                color: 0.1, 0.1, 0.1, 1
+                bold: True
+                size_hint_y: None
+                height: self.texture_size[1] + 10
+
+            TextInput:
+                id: queue_input
+                hint_text: "Masukkan jumlah antrian"
+                input_filter: 'int'
+                font_size: 22
+                multiline: False
+                size_hint_y: None
+                height: 50
+                padding_y: [10, 10]
+                background_normal: ''
+                background_color: 1, 1, 1, 1
+                foreground_color: 0.1, 0.1, 0.1, 1
+
+            Button:
+                text: "Set Antrian"
+                font_size: 20
+                size_hint_y: None
+                height: 50
+                background_color: 0.2, 0.6, 1, 1  # Warna biru
+                color: 1, 1, 1, 1
+                on_release: root.update_queue()
+
+            Button:
+                text: "Tampilkan Antrian yang Diambil"
+                font_size: 20
+                size_hint_y: None
+                height: 50
+                background_color: 0.2, 0.6, 1, 1
+                color: 1, 1, 1, 1
+                on_release: root.show_nomor_antrian()
+
+            Label:
+                id: taken_queue_label
+                text: "Antrian yang Diambil:"
+                font_size: 18
+                color: 0.1, 0.1, 0.1, 1
+                bold: True
+                halign: "center"
+                valign: "middle"
+                size_hint_y: None
+                height: self.texture_size[1] + 10
+
+            Label:
+                id: remaining_queue_label
+                text: "Sisa Antrian: 0"
+                font_size: 18
+                color: 0.3, 0.3, 0.3, 1
+                halign: "center"
+                valign: "middle"
+                size_hint_y: None
+                height: self.texture_size[1] + 10
+
+            Button:
+                text: "Refresh Sisa Antrian"
+                font_size: 20
+                size_hint_y: None
+                height: 50
+                background_color: 0.2, 0.6, 1, 1
+                color: 1, 1, 1, 1
+                on_release: root.show_remaining_queue()

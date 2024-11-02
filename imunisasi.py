@@ -20,5 +20,8 @@ class ImunisasiApp(App):
 class ImunisasiScreen(Screen):
     pass
 
+class RiwayatImunScreen(Screen):
+    pass
+
 if __name__ == '__main__':
     ImunisasiApp().run()

@@ -9,7 +9,9 @@ from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.graphics import Color, RoundedRectangle
 import pyrebase
-from login import LoginSecondScreen
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import auth
 
 Window.size = (360, 640)
 
@@ -43,8 +45,8 @@ class ClickableBox(ButtonBehavior, BoxLayout):
 class AccountScreen(Screen):
     def on_pre_enter(self):
         # Menggunakan idToken untuk autentikasi
-        if hasattr(self.manager.get_screen('page_two'), 'user'):  # Pastikan ini adalah screen page_two
-            user = self.manager.get_screen('page_two').user  # Ambil dari screen login
+        if hasattr(self.manager.get_screen('page_one'), 'user'):  # Pastikan ini adalah screen login
+            user = self.manager.get_screen('page_one').user  # Ambil dari screen login
             id_token = user['idToken']
 
             # Ambil referensi pengguna dari Firebase Realtime Database

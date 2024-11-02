@@ -13,25 +13,25 @@
         
         BoxLayout:
             orientation: 'horizontal'
-            size_hint: None, None
-            pos_hint: {'center_x': 0.5,'center_y': 0.5}
-            width: 360
+            size_hint_y: None
             height: '50dp'
             padding: '5dp'
             canvas.before:
                 Color:
-                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
-                Rectangle:
+                    rgba: 0.8, 0.8, 0.8, 1  # Warna abu-abu
+                RoundedRectangle:
                     size: self.size
                     pos: self.pos
+                    radius: [10, 10, 10, 10]
+
             Button:
-                text: '<'  # Arrow left
+                text: '<'  # Tanda panah kiri
                 size_hint: None, None
                 width: '50dp'
                 height: '40dp'
                 background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
+                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
+                color: 1, 1, 1, 1  # Warna teks
                 on_press: app.root.current = 'page_one'
 
             Label:
@@ -40,68 +40,59 @@
                 height: '40dp'
                 font_size: '20sp'
                 bold: True
-                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+                color: 0.1, 0.1, 0.1, 1  # Warna teks
 
             Button:
-                text: '⋮'  # Three dots
+                text: '⋮'  # Tiga titik vertikal
                 size_hint: None, None
                 width: '50dp'
                 height: '40dp'
                 background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
-
-        Label:
-            text: 'Pilih Akun'
-            font_size: '24sp'
-            bold: True
-            color: 0 , 0 , 0 , 1
+                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
+                color: 1, 1, 1, 1  # Warna teks
 
         ScrollView:
-            BoxLayout:
+            GridLayout:
                 id: accounts_box
-                orientation: 'vertical'
-                spacing: 10
-                padding: [10, 10, 10, 10]
+                cols: 1
                 size_hint_y: None
                 height: self.minimum_height
+                spacing: '10dp'
+                padding: '10dp'
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint: None, None
-            size: 280, 40
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            spacing: -120
-            canvas.before:
-                Color:
-                    rgba: 1, 0.8, 0, 1  # Warna kuning
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [20]  # Membuat sudut membulat
-            Button:
-                size_hint_y: None
-                pos_hint: {'center_y': 0.5, 'center_x': 0.5}
-                height: 50
-                text: "Logout"
-                background_normal: ''
-                background_color: 1, 1, 1, 0  # Transparan agar warna background dari canvas terlihat
-                color: 0, 0, 0, 1  # Warna teks hitam
-                on_release: app.root.current = 'page_one'
+<ClickableBox>:
+    canvas.before:
+        Color:
+            rgba: 0.9, 0.9, 0.9, 1  # Warna latar belakang
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [10, 10, 10, 10]
 
-        BoxLayout:
-            orientation: 'horizontal'
-            spacing: 20
+    Image:
+        source: root.user_data['avatar']
+        size_hint: None, None
+        size: 50, 50
+
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.user_data['name']
             size_hint_y: None
-            height: 50
-            Button:
-                text: 'Ketentuan layanan'
-                font_size: '14sp'
-                size_hint_y: None
-                height: self.texture_size[1]
-            Button:
-                text: 'Kebijakan privasi'
-                font_size: '14sp'
-                size_hint_y: None
-                height: self.texture_size[1]
+            height: 25
+            color: 0, 0, 0, 1
+        Label:
+            text: root.user_data['email']
+            size_hint_y: None
+            height: 25
+            color: 0, 0, 0, 1
 
+<HomeApp>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: welcome_label
+            text: "Welcome"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
