@@ -39,6 +39,9 @@ class HealthApp(App):
         for kv_file in kv_files:
             kv_file_path = os.path.join(os.path.dirname(__file__), 'kv', kv_file)
             Builder.load_file(kv_file_path)
+        client_id = open("json/client_id.txt")
+        client_secret = open("json/client_secret.txt")
+        initialize_google(self.after_login, self.error_listener, client_id.read(), client_secret.read())
         return MyScreenManager()
 
     def login(self, email, password):
@@ -60,6 +63,26 @@ class HealthApp(App):
         except Exception as e:
             popup = Popup(title='Error', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200))
             popup.open()
+
+    def after_login(self, name, email, photo_uri):
+        account_screen = self.root.get_screen('page_one')  # Mendapatkan instance AccountScreen
+        account_screen.ids.label.text = f"logged as {name}"
+        self.root.transition.direction = "left"
+        self.root.current = "home"
+        
+    def error_listener(self):
+        print("loggin failed!!!")
+    
+    def loginn(self):
+        login_google()
+        
+    def logout(self):
+        logout_google(self .after_logout())
+        
+    def after_logout(self):
+        self.root.ids.label.text = ""
+        self.root.ids.transition.direction = "right"
+        self.root.current = "page_one"
 
 if __name__ == '__main__':
     HealthApp().run()

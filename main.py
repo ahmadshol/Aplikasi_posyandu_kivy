@@ -12,6 +12,8 @@ from kivy.graphics import Color, RoundedRectangle
 from kivy.properties import StringProperty
 from kivy.properties import ObjectProperty
 import pyrebase
+from kivyauth.google_auth import initialize_google, login_google, logout_google
+
 
 # Firebase configuration
 firebaseConfig = {
@@ -42,13 +44,13 @@ class ClickableImage(ButtonBehavior, Image):
 class LoginScreen(Screen):
     pass
 
-class HomeApp(Screen):
-    pass
-
 class LoginSecondScreen(Screen):
     pass
 
 class MyScreenManager(ScreenManager):
+    pass
+
+class HomeApp(Screen):
     pass
 
 class RegistrationScreen(Screen):
@@ -64,6 +66,9 @@ class ImunisasiScreen(Screen):
     pass
 
 class RiwayatImunScreen(Screen):
+    pass
+
+class ProfilScreen(Screen):
     pass
 
 class DatabalitaScreen(Screen):
@@ -234,52 +239,38 @@ class ClickableBox(ButtonBehavior, BoxLayout):
         app.root.current = 'home'
         app.root.get_screen('home').ids.welcome_label.text = f"Welcome, {self.user_data.get('name')}"
 
-class AccountScreen(Screen):
-    def on_pre_enter(self):
-        login_screen = self.manager.get_screen('page_two')
-        if hasattr(login_screen, 'user'):
-            user = login_screen.user
-            id_token = user['idToken']
-            try:
-                users_ref = db.child("users").get(token=id_token)
-                self.ids.accounts_box.clear_widgets()
-                if users_ref.each():
-                    for doc in users_ref.each():
-                        user_data = doc.val()
-                        clickable_box = ClickableBox(user_data=user_data)
-                        clickable_box.orientation = 'horizontal'
-                        clickable_box.spacing = 10
-                        clickable_box.padding = 10
-                        clickable_box.size_hint_y = None
-                        clickable_box.height = 70
-                        with clickable_box.canvas.before:
-                            Color(rgba=(0.9, 0.9, 0.9, 1))
-                            RoundedRectangle(size=clickable_box.size, pos=clickable_box.pos, radius=[10, 10, 10, 10])
-
-                        image = Image(source='img/avatar.png', size_hint=(None, None), size=(50, 50))
-                        clickable_box.add_widget(image)
-
-                        box = BoxLayout(orientation='vertical', spacing=5)
-                        name_label = Label(text=user_data.get('name', 'No Name'), font_size='18sp', bold=True, size_hint_y=None, height=30, color=(0, 0, 0, 1))
-                        email_label = Label(text=user_data.get('email', 'No Email'), font_size='14sp', size_hint_y=None, height=30, color=(0, 0, 0, 1))
-                        box.add_widget(name_label)
-                        box.add_widget(email_label)
-                        clickable_box.add_widget(box)
-                        self.ids.accounts_box.add_widget(clickable_box)
-                else:
-                    print("No users found.")
-            except Exception as e:
-                print(f"Error fetching users: {e}")
-        else:
-            print("No user is logged in.")
-
 class MyApp(App):
     def build(self):
-        kv_files = ['main.kv', 'home.kv', 'login.kv', 'registrasi.kv', 'account.kv', 'admin.kv','antrian.kv','datalansia.kv','pendaftaran.kv','datapasien.kv','datauser.kv','imunisasi.kv','databalita.kv','adminantrian.kv']
+        kv_files = ['main.kv', 'home.kv', 'login.kv', 'registrasi.kv', 'admin.kv','antrian.kv',
+                    'datalansia.kv','pendaftaran.kv','datapasien.kv','datauser.kv','imunisasi.kv',
+                    'databalita.kv','adminantrian.kv', 'profil.kv']
         for kv_file in kv_files:
             kv_file_path = os.path.join(os.path.dirname(__file__), 'kv', kv_file)
             Builder.load_file(kv_file_path)
+            client_id = open("json/client_id.txt")
+            client_secret = open("json/client_secret.txt")
+            initialize_google(self.after_login, self.error_listener, client_id.read(), client_secret.read())
         return MyScreenManager()
+
+    def after_login(self, name, email, photo_uri):
+        account_screen = self.root.get_screen('page_one')  # Mendapatkan instance AccountScreen
+        account_screen.ids.label.text = f"logged as {name}"
+        self.root.transition.direction = "left"
+        self.root.current = "home"
+    
+    def error_listener(self):
+        print("loggin failed!!!")
+    
+    def loginn(self):
+        login_google()
+        
+    def logout(self):
+        logout_google(self .after_logout())
+        
+    def after_logout(self):
+        self.root.ids.label.text = ""
+        self.root.ids.transition.direction = "right"
+        self.root.current = "page_one"
 
     def login(self, email, password):
         try:
@@ -317,6 +308,6 @@ class MyApp(App):
             Popup(title='Registration Successful', content=Label(text=f'Registration successful for {role}'), size_hint=(None, None), size=(400, 200)).open()
         except Exception as e:
             Popup(title='Registration Failed', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200)).open()
-            
+        
 if __name__ == '__main__':
     MyApp().run()

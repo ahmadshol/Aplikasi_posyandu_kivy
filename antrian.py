@@ -50,7 +50,7 @@ class QueueScreen(Screen):
 
                 try:
                     db.child("nomor_antrian").child(user_id).set(nomor_antrian)  # Simpan ke nomor_antrian
-                    self.ids.queue_label.text = f"Antrian Diambil, Nomor: {queue_number}"
+                    self.ids.queue_label.text = f"Antrian Anda: {queue_number}"
                 except Exception as e:
                     self.ids.queue_label.text = f"Gagal mengambil antrian: {e}"
             else:
