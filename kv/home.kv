@@ -20,30 +20,18 @@
             height: '50dp'
             padding: '5dp'
             Label:
-                text: '9:27'
-                size_hint_x: 0.1
-            Label:
-                text: 'Save Health'
+                text: 'Aplikasi Posyandu'
                 font_size: '24dp'
                 bold: True
-            ClickableImage:
-                source: 'img/location (1) 1.png' 
-                on_press:
-                    app.root.current = 'profil' 
+                color: 0, 0, 0, 1
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size  # Mengatur ukuran teks agar sesuai dengan ukuran Label
 
             ClickableImage:
                 source: 'img/avatar.png' 
                 on_press:
                     app.root.current = 'profil'
-
-                    
-        # Search bar
-        BoxLayout:
-            size_hint_y: None
-            height: '40dp'
-            TextInput:
-                hint_text: 'Search'
-                multiline: False
 
         # Column for icons and "Konsultasi dengan spesialis" inside one box
         BoxLayout:
@@ -161,79 +149,15 @@
             spacing: '10dp'
 
             # Card for Sholahudin
-            ClickBox:
-                target_screen: 'data'
-                orientation: 'horizontal'
-                spacing: 10
-                padding: 10
-                size_hint_y: None
-                height: 70
-                canvas.before:
-                    Color:
-                        rgba: 0.9, 0.9, 0.9, 1
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-                Image:
-                    source: 'img/avatar.png'
-                    size_hint: None, None
-                    size: 50, 50
-                BoxLayout:
+            RecycleView:
+                id: recycle_view
+                viewclass: 'ClickBox'
+                RecycleBoxLayout:
                     orientation: 'vertical'
-                    spacing: 5
-                    Label:
-                        text: 'Rohmad Rafi'
-                        font_size: '16dp'
-                        halign: 'left'
-                        valign: 'middle'
-                        text_size: self.size
-                        color: 0, 0, 0, 1
-                    Label:
-                        text: 'Lansia'
-                        font_size: '12dp'
-                        halign: 'left'
-                        valign: 'middle'
-                        text_size: self.size
-                        color: 0, 0, 0, 1
-            
-
-            ClickBox:
-                target_screen: 'databalita'
-                orientation: 'horizontal'
-                spacing: 10
-                padding: 10
-                size_hint_y: None
-                height: 70
-                canvas.before:
-                    Color:
-                        rgba: 0.9, 0.9, 0.9, 1
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-                Image:
-                    source: 'img/avatar.png'
-                    size_hint: None, None
-                    size: 50, 50
-                BoxLayout:
-                    orientation: 'vertical'
-                    spacing: 5
-                    Label:
-                        text: 'Musarof Morisrona'
-                        font_size: '16dp'
-                        halign: 'left'
-                        valign: 'middle'
-                        text_size: self.size
-                        color: 0, 0, 0, 1
-                    Label:
-                        text: 'Balita'
-                        font_size: '12dp'
-                        halign: 'left'
-                        valign: 'middle'
-                        text_size: self.size
-                        color: 0, 0, 0, 1
-
+                    size_hint_y: None
+                    height: self.minimum_height
+                    default_size_hint: 1, None
+                    default_size: None, 70
         # Add button
         AnchorLayout:
             anchor_x: 'center'
@@ -246,11 +170,42 @@
                 background_color: 0.2, 0.6, 0.4, 1
                 color: 1, 1, 1, 1
                 font_size: '40dp'
-
 <ClickBox@ButtonBehavior+BoxLayout>:
-    target_screen: ''  # Properti untuk menentukan layar tujuan
-    on_release:
-        app.root.current = self.target_screen  # Navigasi berdasarkan target_screen
+    orientation: 'horizontal'
+    spacing: 10
+    padding: 10
+    size_hint_y: None
+    height: 70
+    nama: ''          # Nama yang diambil dari Firebase
+    kategori: ''      # Kategori (Lansia/Balita) yang diambil dari Firebase
+    on_release: root.navigate_to_screen()
+    canvas.before:
+        Color:
+            rgba: 0.9, 0.9, 0.9, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10, 10, 10, 10]
+    Image:
+        source: 'img/avatar.png'
+        size_hint: None, None
+        size: 50, 50
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 5
+        Label:
+            text: root.nama  # Menampilkan nama dari Firebase
+            font_size: '16dp'
+            halign: 'left'
+            valign: 'middle'
+            color: 0, 0, 0, 1
+        Label:
+            text: root.kategori  # Menampilkan kategori (Lansia/Balita) dari Firebase
+            font_size: '12dp'
+            halign: 'left'
+            valign: 'middle'
+            color: 0, 0, 0, 1
+    
 
 
 <ClickableImage>:

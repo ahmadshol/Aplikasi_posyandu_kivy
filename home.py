@@ -14,10 +14,38 @@ Config.set('graphics', 'height', '640')
 Config.set('graphics', 'resizable', False)
 
 class HomeApp(Screen):
-    pass
+    data_list = ListProperty([])
+
+    def on_pre_enter(self):
+        # Ambil data dari Firebase dan perbarui RecycleView
+        balita_data = App.get_running_app().firebase_db.child("balita").get()
+        lansia_data = App.get_running_app().firebase_db.child("lansia").get()
+
+        data_list = []
+        if balita_data.each():
+            for item in balita_data.each():
+                data_list.append({
+                    'nama': item.val().get('nama'),
+                    'kategori': 'Balita',
+                    'target_screen': 'databalita'
+                })
+
+        if lansia_data.each():
+            for item in lansia_data.each():
+                data_list.append({
+                    'nama': item.val().get('nama'),
+                    'kategori': 'Lansia',
+                    'target_screen': 'datalansia'
+                })
+
+        self.data_list = data_list
 
 class ClickableImage(ButtonBehavior, Image):
     pass
+
+class ClickBox(BoxLayout):
+    kategori = StringProperty('')  # Mendefinisikan atribut 'kategori'
+    nama = StringProperty('') 
 
 class UserApp(App):
     def build(self):

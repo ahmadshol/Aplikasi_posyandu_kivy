@@ -32,20 +32,61 @@ class AddBalitaScreen(Screen):
     pass
 
 class AddLansiaScreen(Screen):
-    pass
+    def daftar_lansia(self):
+        tinggi = self.ids.tinggiBadan.text
+        berat = self.ids.beratBadan.text
+        tekanan = self.ids.tekananDarah.text
+        gula = self.ids.kadarGula.text
+        kolesterol = self.ids.kolestrol.text
+        riwayat = self.ids.riwayatPenyakit.text
+
+        # Data untuk disimpan
+        data = {
+            'tinggi_badan': tinggi,
+            'berat_badan': berat,
+            'tekanan_darah': tekanan,
+            'gula_darah': gula,
+            'kolestrol': kolesterol,
+            'riwayat_penyakit': riwayat
+        }
+
+        # Simpan ke Firebase
+        app = App.get_running_app()
+        app.db.child("data_lansia").push(data)  # Simpan ke Realtime Database
+
+        # Navigasi ke DataLansiaScreen dan muat data
+        self.manager.current = 'data'
+        self.manager.get_screen('data').load_data()
 
 class DaftarScreen(Screen):
     lansia_checkbox = ObjectProperty(None)
     balita_checkbox = ObjectProperty(None)
 
     def go_to_next_screen(self):
+        # Ambil data input dari pengguna
+        nik = self.ids.nik.text
+        nama = self.ids.nama.text
+        tanggal_lahir = self.ids.tanggalLahir.text
+        alamat = self.ids.alamat.text
+        no_hp = self.ids.noHp.text
+
+        # Buat objek data yang akan disimpan ke Firebase
+        data = {
+            'nik': nik,
+            'nama': nama,
+            'tanggal_lahir': tanggal_lahir,
+            'alamat': alamat,
+            'no_hp': no_hp,
+            'timestamp': datetime.now().isoformat()
+        }
+
+        # Tentukan jalur penyimpanan di Firebase berdasarkan kategori
         if self.lansia_checkbox.active:
-            self.manager.current = 'addlansia'
+            App.get_running_app().firebase_db.child("lansia").push(data)
+            self.manager.current = "addlansia"
         elif self.balita_checkbox.active:
-            self.manager.current = 'addbalita'
-        else:
-            # Anda mungkin ingin menambahkan alert atau penanganan error di sini
-            print("Silakan pilih Lansia atau Balita.")
+            App.get_running_app().firebase_db.child("balita").push(data)
+            self.manager.current = "addbalita"
 
 class daftarApp(App):
     def build(self):

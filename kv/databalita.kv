@@ -90,7 +90,8 @@
                 size_hint_x: None
                 width: 100
             Label:
-                text: 'Musarof Morisrona'
+                id: labelNama
+                text: "Nama: "
                 font_size: '18sp'
                 pos_hint: {'center_x': 0.5,'center_y': 0.5}
                 valign: 'middle'
@@ -112,6 +113,7 @@
                 size_hint_y: 1
                 height: 40
                 Label:
+                    id: tinggi_badan_label
                     text: 'Tinggi Badan'
                     font_size: '16sp'
                     color: 0, 0, 0, 1  # Black text color
@@ -121,6 +123,7 @@
                 size_hint_y: 1
                 height: 40
                 Label:
+                    id: berat_badan_label
                     text: 'Berat Badan'
                     font_size: '16sp'
                     color: 0, 0, 0, 1  # Black text color
@@ -130,6 +133,7 @@
                 size_hint_y: 1
                 height: 40
                 Label:
+                    id: lingkar_lengan_label
                     text: 'Lingkar Lengan Atas'
                     font_size: '16sp'
                     color: 0, 0, 0, 1  # Black text color
@@ -139,7 +143,18 @@
                 size_hint_y: 1
                 height: 40
                 Label:
+                    id: lingkar_kepala_label
                     text: 'Lingkar kepala'
+                    font_size: '16sp'
+                    color: 0, 0, 0, 1  # Black text color
+                    valign: 'top'  # Move text up slightly
+
+            BoxLayout:
+                size_hint_y: 1
+                height: 40
+                Label:
+                    id: riwayat_penyakit_label
+                    text: "Riwayat Penyakit: "
                     font_size: '16sp'
                     color: 0, 0, 0, 1  # Black text color
                     valign: 'top'  # Move text up slightly

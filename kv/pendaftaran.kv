@@ -75,28 +75,24 @@
         TextInput:
             id: nama
             hint_text: 'Nama'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: tanggalLahir
             hint_text: 'Tanggal lahir'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: alamat
             hint_text: 'Alamat'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: noHp
             hint_text: 'Nomor hp'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
@@ -230,28 +226,24 @@
         TextInput:
             id: beratBadan
             hint_text: 'Berat Badan'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
-            id: LingkarLenganAtas
+            id:lingkarLengan
             hint_text: 'Lingkar Lengan Atas'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: lingkarKepala
             hint_text: 'Lingkar Kepala'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: riwayatPenyakit
             hint_text: 'Riwayat Penyakit'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
@@ -277,7 +269,7 @@
                 background_normal: ''
                 background_color: 1, 1, 1, 0
                 color: 0, 0, 0, 1
-                on_release: app.login(email.text, password.text)
+                on_release: root.daftar_balita()
 
 <AddLansiaScreen>
     name: 'addlansia'
@@ -354,35 +346,30 @@
         TextInput:
             id: beratBadan
             hint_text: 'Berat Badan'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: tekananDarah
             hint_text: 'Tekanan  Darah'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: kadarGula
             hint_text: 'Kadar gula darah'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: kolestrol
             hint_text: 'Kolestrol'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
         TextInput:
             id: riwayatPenyakit
             hint_text: 'Riwayat Penyakit'
-            password: True
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
@@ -408,5 +395,5 @@
                 background_normal: ''
                 background_color: 1, 1, 1, 0
                 color: 0, 0, 0, 1
-                on_release: app.login(email.text, password.text)
+                on_release: root.daftar_lansia()  # Panggil metode daftar_lansia
 
