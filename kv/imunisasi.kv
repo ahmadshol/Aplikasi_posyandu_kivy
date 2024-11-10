@@ -460,3 +460,99 @@
                 text_size: self.size
                 color: 0, 0, 0, 1
             
+<DaftarbalitaScreen>:
+
+    name: 'listbalita'
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        size_hint_y: 1
+        canvas.before:
+            Color:
+                rgba: 0.95, 0.95, 0.95, 1  # Background color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '50dp'
+            padding: '5dp'
+            canvas.before:
+                Color:
+                    rgba: 0.8, 0.8, 0.8, 1  # Grey color
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [10, 10, 10, 10]
+
+            Button:
+                text: '<'  # Back arrow
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: 0.6, 0.6, 0.6, 1
+                color: 1, 1, 1, 1
+                on_press: app.root.current = 'admin'
+
+            Label:
+                text: 'Data Balita'
+                size_hint: 1, None
+                height: '40dp'
+                font_size: '20sp'
+                bold: True
+                color: 0.1, 0.1, 0.1, 1
+
+            Button:
+                text: '⋮'  # Vertical dots
+                size_hint: None, None
+                width: '50dp'
+                height: '40dp'
+                background_normal: ''
+                background_color: 0.6, 0.6, 0.6, 1
+                color: 1, 1, 1, 1
+
+        ScrollView:
+            BoxLayout:
+                id: patient_layout
+                orientation: 'vertical'
+                size_hint_y: None
+                padding: [0, 10]
+                height: self.minimum_height
+
+<PatientItem>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: 80
+    padding: [5, 5, 5, 5]
+    spacing: 10
+    on_touch_down: if self.collide_point(*args[1].pos): app.go_to_imunisasi_screen(root.patient_id)
+
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10]
+
+    Image:
+        source: 'img/avatar.png'
+        size_hint_x: None
+        width: 50
+
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.name
+            font_size: 16
+            color: 0, 0, 0, 1
+            bold: True
+        Label:
+            text: "Balita"
+            font_size: 16
+            color: 0, 0, 0, 1
