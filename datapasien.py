@@ -11,7 +11,7 @@ Window.size = (360, 640)
 # Load the KV file
 Builder.load_file("kv/datapasien.kv")
 
-class PatientItem(ButtonBehavior, BoxLayout):
+class PatientItem(BoxLayout):
     name = StringProperty()
     category = StringProperty()
 
@@ -36,14 +36,12 @@ class PatientList(Screen):
             ("Bagas Fitriandra", "Balita")
         ]
 
-        # Initial patient list display
+    def on_pre_enter(self):
+        # Display initial list of patients
         self.update_patient_list("All")
 
     def update_patient_list(self, category):
-        # Clear current patient list
         self.ids.patient_layout.clear_widgets()
-
-        # Filter and display patients based on selected category
         for name, patient_category in self.patients:
             if category == "All" or patient_category == category:
                 patient_box = PatientItem(name=name, category=patient_category)

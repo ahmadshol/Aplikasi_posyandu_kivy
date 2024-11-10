@@ -9,6 +9,7 @@ from kivy.core.window import Window
 import os
 from kivy.uix.popup import Popup
 import pyrebase
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 # Initialize Firebase
 firebaseConfig = {
@@ -27,7 +28,7 @@ db = firebase.database()
 
 Window.size = (360, 640)
 
-class RegistrationScreen(BoxLayout):
+class RegistrationScreen(Screen):
     pass
 
 class RegistrationApp(App):

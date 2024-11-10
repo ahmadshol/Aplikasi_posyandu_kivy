@@ -6,13 +6,24 @@ from kivy.uix.scrollview import ScrollView
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen
-from main import firebase, db
 import os
+import pyrebase
+
+firebaseConfig = {
+    "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
+    "authDomain": "kesehatan-masyarakat.firebaseapp.com",
+    "databaseURL": "https://kesehatan-masyarakat-default-rtdb.firebaseio.com",
+    "projectId": "kesehatan-masyarakat", 
+    "storageBucket": "kesehatan-masyarakat.appspot.com",
+    "messagingSenderId": "366757069189",
+    "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+}
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+auth = firebase.auth()
+db = firebase.database()
 
 
-def set_queue_count(count):
-    ref = db.reference('queue')
-    ref.update({'count': count})
 
 class AdminAntrianScreen(Screen):
     def on_enter(self):
@@ -49,6 +60,10 @@ class AdminAntrianApp(App):
             kv_file_path = os.path.join(os.path.dirname(__file__), 'kv', kv_file)
             Builder.load_file(kv_file_path)
         return AdminAntrianScreen()
+    
+    def set_queue_count(count):
+        ref = db.reference('queue')
+        ref.update({'count': count})
     
 if __name__ == '__main__':
     AdminAntrianApp().run()

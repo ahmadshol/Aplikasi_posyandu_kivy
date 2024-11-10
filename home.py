@@ -1,51 +1,100 @@
 from kivy.config import Config
 import os
+import pyrebase
 from kivy.lang import Builder
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import ButtonBehavior
 from kivy.uix.image import Image
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.properties import StringProperty
+from kivy.properties import ObjectProperty
+from kivy.properties import ListProperty
 
+firebaseConfig = {
+            "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
+            "authDomain": "kesehatan-masyarakat.firebaseapp.com",
+            "databaseURL": "https://kesehatan-masyarakat-default-rtdb.firebaseio.com",
+            "projectId": "kesehatan-masyarakat", 
+            "storageBucket": "kesehatan-masyarakat.appspot.com",
+            "messagingSenderId": "366757069189",
+            "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+}
 
+firebase = pyrebase.initialize_app(firebaseConfig)
+auth = firebase.auth()
+db = firebase.database() 
+        
 # Set the window size
 Config.set('graphics', 'width', '360')
 Config.set('graphics', 'height', '640')
 Config.set('graphics', 'resizable', False)
 
 class HomeApp(Screen):
-    data_list = ListProperty([])
+    def on_enter(self):
+        self.fetch_data()
 
-    def on_pre_enter(self):
-        # Ambil data dari Firebase dan perbarui RecycleView
-        balita_data = App.get_running_app().firebase_db.child("balita").get()
-        lansia_data = App.get_running_app().firebase_db.child("lansia").get()
+    def fetch_data(self):
+        # Memastikan id recycle_view ada di ids
+        if 'recycle_view' in self.ids:
+            # Hapus data lama di RecycleView
+            self.ids.recycle_view.data = []
 
-        data_list = []
-        if balita_data.each():
-            for item in balita_data.each():
-                data_list.append({
-                    'nama': item.val().get('nama'),
-                    'kategori': 'Balita',
-                    'target_screen': 'databalita'
-                })
+            # Mengambil data dari tabel lansia
+            data_lansia = db.child("lansia").get().val()
+            if data_lansia:
+                for key, value in data_lansia.items():
+                    item = {
+                        'nama': value.get('nama', ''),
+                        'kategori': 'Lansia',
+                    }
+                    self.ids.recycle_view.data.append(item)
 
-        if lansia_data.each():
-            for item in lansia_data.each():
-                data_list.append({
-                    'nama': item.val().get('nama'),
-                    'kategori': 'Lansia',
-                    'target_screen': 'datalansia'
-                })
-
-        self.data_list = data_list
+            # Mengambil data dari tabel balita
+            data_balita = db.child("balita").get().val()
+            if data_balita:
+                for key, value in data_balita.items():
+                    item = {
+                        'nama': value.get('nama', ''),
+                        'kategori': 'Balita',
+                    }
+                    self.ids.recycle_view.data.append(item)
+        else:
+            print("ID recycle_view tidak ditemukan di ids.")
 
 class ClickableImage(ButtonBehavior, Image):
     pass
 
-class ClickBox(BoxLayout):
-    kategori = StringProperty('')  # Mendefinisikan atribut 'kategori'
-    nama = StringProperty('') 
+class ClickBox(ButtonBehavior, RecycleDataViewBehavior, BoxLayout):
+    nama = StringProperty("")
+    kategori = StringProperty("")
+
+    def navigate_to_screen(self):
+        # Data contoh untuk menampilkan data lansia/balita
+        # Ganti dengan logika pengambilan data dari Firebase
+        selected_data = {
+            "nama": self.nama,
+            "kategori": self.kategori,
+            "tinggi_badan": "160 cm",
+            "berat_badan": "65 kg",
+            "tekanan_darah": "120/80 mmHg",
+            "kadar_gula": "90 mg/dL",
+            "kolesterol": "180 mg/dL",
+            "riwayat_penyakit": "Hipertensi"
+        }
+
+        # Menentukan layar yang akan dituju berdasarkan kategori
+        app = App.get_running_app()
+        if self.kategori == 'Lansia':
+            data_screen = app.root.get_screen('data')
+            app.root.current = 'data'
+        elif self.kategori == 'Balita':
+            data_screen = app.root.get_screen('databalita')
+            app.root.current = 'databalita'
+
+        # Mengirim data ke layar detail yang sesuai
+        data_screen.update_data(selected_data)
 
 class UserApp(App):
     def build(self):
@@ -53,6 +102,11 @@ class UserApp(App):
         kv_file_path = os.path.join(os.path.dirname(__file__), 'kv','home.kv')
         Builder.load_file(kv_file_path)
         return HomeApp()
+    
+    def update_recycleview(self):
+        # Update RecycleView dengan data terbaru
+        self.root.ids.recycle_view.data = self.data
+          
 
 if __name__ == '__main__':
     UserApp().run()

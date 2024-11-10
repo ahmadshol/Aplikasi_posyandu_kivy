@@ -44,26 +44,6 @@ class HealthApp(App):
         initialize_google(self.after_login, self.error_listener, client_id.read(), client_secret.read())
         return MyScreenManager()
 
-    def login(self, email, password):
-        try:
-            # Firebase login
-            user = auth.sign_in_with_email_and_password(email, password)
-
-            # Get user token
-            id_token = user['idToken']
-
-            # Retrieve user role from database
-            user_data = db.child("users").child(user['localId']).get(token=id_token).val()
-            role = user_data.get("role", "")
-
-            if role == "admin":
-                self.root.current = 'admin'  # Switch to admin screen
-            else:
-                self.root.current = 'home'  # Switch to home screen
-        except Exception as e:
-            popup = Popup(title='Error', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200))
-            popup.open()
-
     def after_login(self, name, email, photo_uri):
         account_screen = self.root.get_screen('page_one')  # Mendapatkan instance AccountScreen
         account_screen.ids.label.text = f"logged as {name}"
@@ -83,6 +63,43 @@ class HealthApp(App):
         self.root.ids.label.text = ""
         self.root.ids.transition.direction = "right"
         self.root.current = "page_one"
+        
+    def login(self, email, password):
+        try:
+            user = auth.sign_in_with_email_and_password(email, password)
+            login_screen = self.root.get_screen('page_two')
+            login_screen.user = user
+            id_token = user['idToken']
+            users_ref = db.child("users").child(user['localId']).get(token=id_token)
+            if users_ref.val():
+                user_data = users_ref.val()
+                role = user_data.get("role")
+                if role == "admin":
+                    self.root.current = 'admin'
+                elif role == "user":
+                    self.root.current = 'home'
+                else:
+                    Popup(title='Error', content=Label(text='Role not found'), size_hint=(None, None), size=(400, 200)).open()
+            else:
+                Popup(title='Error', content=Label(text='User data not found'), size_hint=(None, None), size=(400, 200)).open()
+        except Exception as e:
+            Popup(title='Login Error', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200)).open()
 
+    def register(self, name, email, password, role):
+        try:
+            user = auth.create_user_with_email_and_password(email, password)
+            registrasi_screen = self.root.get_screen('registrasi')
+            registrasi_screen.user = user
+            id_token = user['idToken']
+            db.child("users").child(user['localId']).set({
+                "name": name,
+                "email": email,
+                "password": password,
+                "role": role
+            }, token=id_token)
+            Popup(title='Registration Successful', content=Label(text=f'Registration successful for {role}'), size_hint=(None, None), size=(400, 200)).open()
+        except Exception as e:
+            Popup(title='Registration Failed', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200)).open()
+            
 if __name__ == '__main__':
     HealthApp().run()

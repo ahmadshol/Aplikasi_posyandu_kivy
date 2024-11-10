@@ -29,7 +29,19 @@ class MyScreenManager(ScreenManager):
     pass
 
 class AddBalitaScreen(Screen):
-    pass
+    def daftar_balita(self):
+        # Collect data from input fields
+        data = {
+            "nama": self.ids.nama.text,
+            "tinggi_badan": self.ids.tinggiBadan.text,
+            "berat_badan": self.ids.beratBadan.text,
+            "lingkar_lengan": self.ids.lingkarLengan.text,
+            "lingkar_kepala": self.ids.lingkarKepala.text,
+            "riwayat_penyakit": self.ids.riwayatPenyakit.text
+        }
+        # Push data to Firebase
+        db.child("data_balita").push(data)
+        print("Data balita has been saved to Firebase.")
 
 class AddLansiaScreen(Screen):
     def daftar_lansia(self):
@@ -53,10 +65,6 @@ class AddLansiaScreen(Screen):
         # Simpan ke Firebase
         app = App.get_running_app()
         app.db.child("data_lansia").push(data)  # Simpan ke Realtime Database
-
-        # Navigasi ke DataLansiaScreen dan muat data
-        self.manager.current = 'data'
-        self.manager.get_screen('data').load_data()
 
 class DaftarScreen(Screen):
     lansia_checkbox = ObjectProperty(None)
@@ -87,6 +95,22 @@ class DaftarScreen(Screen):
         elif self.balita_checkbox.active:
             App.get_running_app().firebase_db.child("balita").push(data)
             self.manager.current = "addbalita"
+        
+    def submit_form(self):
+        # Ambil data dari form input
+        nama = self.ids.nama_input.text
+        kategori = self.ids.kategori_input.text
+        
+        # Tambahkan data ke RecycleView
+        app = App.get_running_app()
+        app.add_data(nama, kategori)
+        
+        # Bersihkan form input setelah submit
+        self.ids.nama_input.text = ''
+        self.ids.kategori_input.text = ''
+        
+        # Pindah ke halaman home setelah submit
+        self.manager.current = "home"
 
 class daftarApp(App):
     def build(self):
@@ -95,6 +119,25 @@ class daftarApp(App):
             kv_file_path = os.path.join(os.path.dirname(__file__), 'kv', kv_file)
             Builder.load_file(kv_file_path)
         return DaftarScreen()
+    
+    def submit_form(self, nama, kategori):
+        # Data dari form
+        data = {
+            "nama": nama,
+            "kategori": kategori
+        }
+        
+        # Mengirim data ke Firebase Realtime Database
+        db.child("pendaftaran").push(data)
+        print("Data berhasil dikirim ke Firebase")
+
+        # Pindah ke halaman home setelah mengirim data
+        self.root.current = 'home'
+        
+    def add_data(self, nama, kategori):
+        # Menambahkan data baru setelah form pendaftaran
+        self.data.append({"nama": nama, "kategori": kategori})
+        self.update_recycleview()
     
 if __name__ == '__main__':
     daftarApp().run()

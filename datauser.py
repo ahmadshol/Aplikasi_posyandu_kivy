@@ -35,14 +35,12 @@ class UserList(Screen):
             ("Bagas Fitriandra", "bgskn@gmail.com")
         ]
 
-        # Initial patient list display
+    def on_pre_enter(self):
+        # Display initial list of patients
         self.update_user_list("All")
 
     def update_user_list(self, category):
-        # Clear current patient list
         self.ids.user_layout.clear_widgets()
-
-        # Filter and display patients based on selected category
         for name, user_category in self.users:
             if category == "All" or user_category == category:
                 user_box = UserItem(name=name, category=user_category)

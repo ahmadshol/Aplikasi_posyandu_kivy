@@ -6,8 +6,22 @@ from kivy.uix.scrollview import ScrollView
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen
-from main import firebase, db
 import os
+import pyrebase
+
+firebaseConfig = {
+    "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
+    "authDomain": "kesehatan-masyarakat.firebaseapp.com",
+    "databaseURL": "https://kesehatan-masyarakat-default-rtdb.firebaseio.com",
+    "projectId": "kesehatan-masyarakat", 
+    "storageBucket": "kesehatan-masyarakat.appspot.com",
+    "messagingSenderId": "366757069189",
+    "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+}
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+auth = firebase.auth()
+db = firebase.database()
 
 Window.size = (360,640)
 
@@ -50,7 +64,7 @@ class QueueScreen(Screen):
 
                 try:
                     db.child("nomor_antrian").child(user_id).set(nomor_antrian)  # Simpan ke nomor_antrian
-                    self.ids.queue_label.text = f"Antrian Anda: {queue_number}"
+                    self.ids.queue_label.text = f"Antrian Diambil, Nomor: {queue_number}"
                 except Exception as e:
                     self.ids.queue_label.text = f"Gagal mengambil antrian: {e}"
             else:
