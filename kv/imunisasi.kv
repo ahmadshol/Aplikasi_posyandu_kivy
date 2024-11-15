@@ -66,11 +66,14 @@
                     pos: self.pos
                     size: self.size
             Label:
-                text: 'Imunisasi'
+                text: 'Pilih Balita :'
                 font_size: '24sp'
                 bold: True
                 color: 1, 1, 1, 1  # White text color
-        
+            Spinner:
+                id: balita_spinner
+                text: "Pilih Balita"
+                on_text: root.on_balita_selected(self.text)
 
         BoxLayout:
             orientation: 'horizontal'
@@ -161,7 +164,7 @@
         BoxLayout:
             orientation: 'horizontal'    
             AnchorLayout:
-                anchor_x: 'left'
+                anchor_x: 'center'
                 anchor_y: 'bottom'
                 Button:
                     text: 'Ambil antrian'
@@ -173,438 +176,319 @@
                     font_size: '10dp'
                     on_press: app.root.current = 'antrian'
 
-            AnchorLayout:
-                anchor_x: 'right'
-                anchor_y: 'bottom'
-                Button:
-                    text: 'riwayat imunisasi'
-                    size_hint: None, None
-                    size: '100dp', '50dp'
-                    background_normal: ''
-                    background_color: 0.2, 0.6, 0.4, 1
-                    color: 1, 1, 1, 1
-                    font_size: '10dp'
-                    on_press: app.root.current = 'riwayatimun'
+            # AnchorLayout:
+            #     anchor_x: 'right'
+            #     anchor_y: 'bottom'
+            #     Button:
+            #         text: 'riwayat imunisasi'
+            #         size_hint: None, None
+            #         size: '100dp', '50dp'
+            #         background_normal: ''
+            #         background_color: 0.2, 0.6, 0.4, 1
+            #         color: 1, 1, 1, 1
+            #         font_size: '10dp'
+            #         on_press: app.root.current = 'riwayatimun'
     
-<RiwayatImunScreen>
-    name: 'riwayatimun'
-    BoxLayout:
-        orientation: 'vertical'
-        padding: 10
-        spacing: 10
-        size_hint_y: 1
-        canvas.before:
-            Color:
-                rgba: 0.95, 0.95, 0.95, 1  # Background color for the whole app
-            Rectangle:
-                pos: self.pos
-                size: self.size
+# <RiwayatImunScreen>
+#     name: 'riwayatimun'
+#     BoxLayout:
+#         orientation: 'vertical'
+#         padding: 10
+#         spacing: 10
+#         size_hint_y: 1
+#         canvas.before:
+#             Color:
+#                 rgba: 0.95, 0.95, 0.95, 1  # Background color for the whole app
+#             Rectangle:
+#                 pos: self.pos
+#                 size: self.size
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint: None, None
-            pos_hint: {'center_x': 0.5,'center_y': 0.5}
-            width: 360
-            height: '50dp'
-            padding: '5dp'
-            canvas.before:
-                Color:
-                    rgba: (0.6, 0.6, 0.6, 1)  # Gray color
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-            Button:
-                text: '<'  # Arrow left
-                size_hint: None, None
-                width: '50dp'
-                height: '40dp'
-                background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
-                on_press: app.root.current = 'home'
+#         BoxLayout:
+#             orientation: 'horizontal'
+#             size_hint: None, None
+#             pos_hint: {'center_x': 0.5,'center_y': 0.5}
+#             width: 360
+#             height: '50dp'
+#             padding: '5dp'
+#             canvas.before:
+#                 Color:
+#                     rgba: (0.6, 0.6, 0.6, 1)  # Gray color
+#                 Rectangle:
+#                     size: self.size
+#                     pos: self.pos
+#             Button:
+#                 text: '<'  # Arrow left
+#                 size_hint: None, None
+#                 width: '50dp'
+#                 height: '40dp'
+#                 background_normal: ''
+#                 background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+#                 color: (1, 1, 1, 1)  # Text color
+#                 on_press: app.root.current = 'home'
 
-            Label:
-                text: 'Data Balita'
-                size_hint: 1, None
-                height: '40dp'
-                font_size: '20sp'
-                bold: True
-                color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+#             Label:
+#                 text: 'Data Balita'
+#                 size_hint: 1, None
+#                 height: '40dp'
+#                 font_size: '20sp'
+#                 bold: True
+#                 color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
 
-            Button:
-                text: '⋮'  # Three dots
-                size_hint: None, None
-                width: '50dp'
-                height: '40dp'
-                background_normal: ''
-                background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
-                color: (1, 1, 1, 1)  # Text color
+#             Button:
+#                 text: '⋮'  # Three dots
+#                 size_hint: None, None
+#                 width: '50dp'
+#                 height: '40dp'
+#                 background_normal: ''
+#                 background_color: (0.1, 0.1, 0.1, 1)  # Adjust color as needed
+#                 color: (1, 1, 1, 1)  # Text color
 
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: 'Riwayat Imunisasi'
-                ssize_hint: None, 1
-                height: '20dp'
-                bold: True
-                color: 0, 0, 0, 1
-                font_size: 40
+#         BoxLayout:
+#             orientation: 'horizontal'
+#             Label:
+#                 text: 'Riwayat Imunisasi'
+#                 ssize_hint: None, 1
+#                 height: '20dp'
+#                 bold: True
+#                 color: 0, 0, 0, 1
+#                 font_size: 40
 
-        # First Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            halign: 'center'
-            valign: 'middle'
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+#         # First Entry
+#         BoxLayout:
+#             orientation: 'horizontal'
+#             size_hint_y: 1
+#             height: '80dp'
+#             padding: 5
+#             halign: 'center'
+#             valign: 'middle'
+#             spacing: 5
+#             canvas.before:
+#                 Color:
+#                     rgba: 1, 1, 1, 1
+#                 Rectangle:
+#                     pos: self.pos
+#                     size: self.size
 
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
+#             CheckBox:
+#                 size_hint_x: None
+#                 width: '40dp'
 
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Pertama'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama: Rohmad Rafi'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    spacing: '10dp'
-                Label:
-                    text: 'Tempat: Posyandu Flamboyan'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal: 09 Juli 2024'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+#             BoxLayout:
+#                 orientation: 'vertical'
+#                 padding: ('0dp', '10dp', '0dp', '10dp')
+#                 Label:
+#                     text: 'Imunisasi Pertama'
+#                     size_hint_y: None
+#                     height: '20dp'
+#                     bold: True
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                     font_size: 20
+#                 Label:
+#                     text: 'Nama: Rohmad Rafi'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                     spacing: '10dp'
+#                 Label:
+#                     text: 'Tempat: Posyandu Flamboyan'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                 Label:
+#                     text: 'Tanggal: 09 Juli 2024'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
 
-            Label:
-                text: 'Antrian 01'
-                size_hint_x: None
-                width: '60dp'
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
+#             Label:
+#                 text: 'Antrian 01'
+#                 size_hint_x: None
+#                 width: '60dp'
+#                 halign: 'center'
+#                 valign: 'middle'
+#                 text_size: self.size
+#                 color: 0, 0, 0, 1
 
-        # Second Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+#         # Second Entry
+#         BoxLayout:
+#             orientation: 'horizontal'
+#             size_hint_y: 1
+#             height: '80dp'
+#             padding: 5
+#             spacing: 5
+#             canvas.before:
+#                 Color:
+#                     rgba: 1, 1, 1, 1
+#                 Rectangle:
+#                     pos: self.pos
+#                     size: self.size
 
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
+#             CheckBox:
+#                 size_hint_x: None
+#                 width: '40dp'
 
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Kedua'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama: Rohmad Rafi'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tempat: Posyandu Flamboyan'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal: 09 Juli 2024'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+#             BoxLayout:
+#                 orientation: 'vertical'
+#                 padding: ('0dp', '10dp', '0dp', '10dp')
+#                 Label:
+#                     text: 'Imunisasi Kedua'
+#                     size_hint_y: None
+#                     height: '20dp'
+#                     bold: True
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                     font_size: 20
+#                 Label:
+#                     text: 'Nama: Rohmad Rafi'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                 Label:
+#                     text: 'Tempat: Posyandu Flamboyan'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                 Label:
+#                     text: 'Tanggal: 09 Juli 2024'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
 
-            Label:
-                text: 'Antrian 02'
-                size_hint_x: None
-                width: '60dp'
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
+#             Label:
+#                 text: 'Antrian 02'
+#                 size_hint_x: None
+#                 width: '60dp'
+#                 halign: 'center'
+#                 valign: 'middle'
+#                 text_size: self.size
+#                 color: 0, 0, 0, 1
 
-        # Third Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+#         # Third Entry
+#         BoxLayout:
+#             orientation: 'horizontal'
+#             size_hint_y: 1
+#             height: '80dp'
+#             padding: 5
+#             spacing: 5
+#             canvas.before:
+#                 Color:
+#                     rgba: 1, 1, 1, 1
+#                 Rectangle:
+#                     pos: self.pos
+#                     size: self.size
 
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
+#             CheckBox:
+#                 size_hint_x: None
+#                 width: '40dp'
 
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Ketiga'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama: Rohmad Rafi'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tempat: Posyandu Flamboyan'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal: 09 Juli 2024'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+#             BoxLayout:
+#                 orientation: 'vertical'
+#                 padding: ('0dp', '10dp', '0dp', '10dp')
+#                 Label:
+#                     text: 'Imunisasi Ketiga'
+#                     size_hint_y: None
+#                     height: '20dp'
+#                     bold: True
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                     font_size: 20
+#                 Label:
+#                     text: 'Nama: Rohmad Rafi'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                 Label:
+#                     text: 'Tempat: Posyandu Flamboyan'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                 Label:
+#                     text: 'Tanggal: 09 Juli 2024'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
 
-            Label:
-                text: 'Antrian 03'
-                size_hint_x: None
-                width: '60dp'
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
+#             Label:
+#                 text: 'Antrian 03'
+#                 size_hint_x: None
+#                 width: '60dp'
+#                 halign: 'center'
+#                 valign: 'middle'
+#                 text_size: self.size
+#                 color: 0, 0, 0, 1
 
-        # Empty Entry
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 1
-            height: '80dp'
-            padding: 5
-            spacing: 5
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+#         # Empty Entry
+#         BoxLayout:
+#             orientation: 'horizontal'
+#             size_hint_y: 1
+#             height: '80dp'
+#             padding: 5
+#             spacing: 5
+#             canvas.before:
+#                 Color:
+#                     rgba: 1, 1, 1, 1
+#                 Rectangle:
+#                     pos: self.pos
+#                     size: self.size
 
-            CheckBox:
-                size_hint_x: None
-                width: '40dp'
+#             CheckBox:
+#                 size_hint_x: None
+#                 width: '40dp'
 
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('0dp', '10dp', '0dp', '10dp')
-                Label:
-                    text: 'Imunisasi Keempat'
-                    size_hint_y: None
-                    height: '20dp'
-                    bold: True
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    font_size: 20
-                Label:
-                    text: 'Nama :'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tempat :'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                Label:
-                    text: 'Tanggal :'
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+#             BoxLayout:
+#                 orientation: 'vertical'
+#                 padding: ('0dp', '10dp', '0dp', '10dp')
+#                 Label:
+#                     text: 'Imunisasi Keempat'
+#                     size_hint_y: None
+#                     height: '20dp'
+#                     bold: True
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                     font_size: 20
+#                 Label:
+#                     text: 'Nama :'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                 Label:
+#                     text: 'Tempat :'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
+#                 Label:
+#                     text: 'Tanggal :'
+#                     color: 0, 0, 0, 1
+#                     halign: 'left'
+#                     valign: 'middle'
+#                     text_size: self.size
 
-            Label:
-                text: 'Antrian'
-                size_hint_x: None
-                width: '60dp'
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-                color: 0, 0, 0, 1
+#             Label:
+#                 text: 'Antrian'
+#                 size_hint_x: None
+#                 width: '60dp'
+#                 halign: 'center'
+#                 valign: 'middle'
+#                 text_size: self.size
+#                 color: 0, 0, 0, 1
             
-<DaftarbalitaScreen>:
-    name: 'listbalita'
-    
-    BoxLayout:
-        orientation: 'vertical'
-        padding: 10
-        spacing: 10
-        size_hint_y: 1
-        canvas.before:
-            Color:
-                rgba: 0.95, 0.95, 0.95, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
-
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: '50dp'
-            padding: '5dp'
-            canvas.before:
-                Color:
-                    rgba: 0.8, 0.8, 0.8, 1
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
-                    radius: [10, 10, 10, 10]
-
-            Button:
-                text: '<'
-                size_hint: None, None
-                width: '50dp'
-                height: '40dp'
-                background_normal: ''
-                background_color: 0.6, 0.6, 0.6, 1
-                color: 1, 1, 1, 1
-                on_press: app.root.current = 'home'
-
-            Label:
-                text: 'imunisasi Balita'
-                size_hint: 1, None
-                height: '40dp'
-                font_size: '20sp'
-                bold: True
-                color: 0.1, 0.1, 0.1, 1
-
-        BoxLayout:
-            size_hint_y: None
-            height: 50
-            padding: 5
-            spacing: 10
-            canvas.before:
-                Color:
-                    rgba: 0.2, 0.6, 0.86, 1  # Background color for title
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            Label:
-                text: 'Pilih Balita'
-                font_size: '24sp'
-                bold: True
-                color: 1, 1, 1, 1  # White text color
-
-        ScrollView:
-            BoxLayout:
-                id: patient_layout
-                orientation: 'vertical'
-                size_hint_y: None
-                padding: [0, 10]
-                height: self.minimum_height
-
-
-<Balitalist>:
-    orientation: 'horizontal'
-    size_hint_y: None
-    height: 80
-    name: ''        
-    category: ''
-    padding: [5, 5, 5, 5]
-    spacing: 10
-
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1  # White background
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: [10]
-
-    Image:
-        source: 'img/avatar.png'
-        size_hint_x: None
-        width: 50
-
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: root.name
-            font_size: 16
-            color: 0, 0, 0, 1
-            bold: True
-        Label:
-            text: root.category
-            font_size: 16
-            color: 0, 0, 0, 1
-
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
-        Button:
-            text: 'pilih'
-            size_hint: None, None
-            size: '100dp', '50dp'
-            background_normal: ''
-            background_color: 0.2, 0.6, 0.4, 1
-            color: 1, 1, 1, 1
-            font_size: '15dp'
-            on_press:
-                root.go_to_imunisasi()

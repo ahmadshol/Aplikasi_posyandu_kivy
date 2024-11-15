@@ -35,42 +35,61 @@ class QueueApp(App):
 
 class QueueScreen(Screen):
     def on_enter(self):
-        # Tampilkan nomor antrian yang diambil
-        nomor_antrian = db.child("nomor_antrian").child(self.get_current_user_id()).get().val() or []
-        self.ids.taken_queue_label.text = "\n".join(nomor_antrian)
+        # Menampilkan nomor antrian yang diambil
+        user_id = self.get_current_user_id()
+        if user_id:
+            nomor_antrian = db.child("nomor_antrian").child(user_id).get(token=App.get_running_app().id_token).val() or []
+            self.ids.taken_queue_label.text = "\n".join(nomor_antrian)
+        else:
+            self.ids.taken_queue_label.text = "ID Pengguna tidak tersedia."
 
     def get_current_user_id(self):
-        # Mengambil current user dari objek auth
-        user = auth.current_user  # Mengakses auth dari main
-        return user['localId'] if user else None
+        # Mengambil user_id dari instance aplikasi
+        app = App.get_running_app()
+        return app.user_id if hasattr(app, 'user_id') else None
 
-    def get_user_name(self):
+    def get_name(self):
         # Mendapatkan nama pengguna dari profil pengguna
-        user = auth.current_user  # Mengakses auth dari main
-        return user['displayName'] if user and 'displayName' in user else "User Tanpa Nama"
+        app = App.get_running_app()
+        return app.name if hasattr(app, 'name') else "User Tanpa Nama"
 
     def get_queue(self):
         user_id = self.get_current_user_id()
-        nomor_antrian = db.child("nomor_antrian").child(user_id).get().val() or []
+        if not user_id:
+            self.ids.queue_label.text = "Gagal mengambil antrian, ID Pengguna tidak tersedia."
+            return
 
-        if len(nomor_antrian) < 2:  # Cek jika sudah mengambil 2 antrian
+        nomor_antrian = db.child("nomor_antrian").child(user_id).get(token=App.get_running_app().id_token).val() or []
+
+        if len(nomor_antrian) < 2:
             count = db.child("queue/count").get().val()
             if count and count > 0:
                 queue_number = count
                 db.child("queue").update({"count": count - 1})
 
-                user_name = self.get_user_name()  # Ambil nama pengguna
-                nomor_antrian.append(f"{user_name}: Antrian {queue_number}")  # Simpan dengan nama
+                name = self.get_name()
+                nomor_antrian.append(f"{name}: Antrian {queue_number}")
 
                 try:
-                    db.child("nomor_antrian").child(user_id).set(nomor_antrian)  # Simpan ke nomor_antrian
+                    db.child("nomor_antrian").child(user_id).set(nomor_antrian, token=App.get_running_app().id_token)
                     self.ids.queue_label.text = f"Antrian Diambil, Nomor: {queue_number}"
+
+                    # Update label di HomeApp
+                    app = App.get_running_app()
+                    home_screen = app.root.get_screen("home")  # Ganti "home" dengan nama layar HomeApp di ScreenManager
+                    home_screen.update_queue_label(nomor_antrian)
+
                 except Exception as e:
                     self.ids.queue_label.text = f"Gagal mengambil antrian: {e}"
             else:
                 self.ids.queue_label.text = "Antrian Habis"
         else:
             self.ids.queue_label.text = "Anda sudah mengambil 2 antrian."
+
+
+    def update_home_queue_label(self, nomor_antrian):
+        home_screen = self.root.get_screen('home')
+        home_screen.update_queue_label(nomor_antrian)
 
 if __name__ == '__main__':
     QueueApp().run()

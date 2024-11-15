@@ -1,6 +1,4 @@
 <DaftarScreen>
-    lansia_checkbox: lansia_cb
-    balita_checkbox: balita_cb
     name: 'daftar'
 
     BoxLayout:
@@ -96,38 +94,7 @@
             size_hint_y: None
             background_color: 1, 1, 1, 0
             height: 40
-
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint: None, 1
-            height: 30
-            pos_hint: {'center_x': 0.2, 'center_y': 0.2}
-            CheckBox:
-                color: [0, 0, 0, 1]
-                id: lansia_cb
-                on_active: root.lansia_checkbox = self
-            Label:
-                color: [0, 0, 0, 1]
-                font_size: 11
-                size_hint_y: 1
-                size_hint_x: None
-                text: 'Lansia'
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint: None, 1
-            height: 30
-            pos_hint: {'center_x': 0.2, 'center_y': 0.2}
-            CheckBox:
-                color: [0, 0, 0, 1]
-                id: balita_cb
-                on_active: root.balita_checkbox = self
-            Label:
-                color: [0, 0, 0, 1]
-                font_size: 11
-                size_hint_y: 1
-                size_hint_x: None
-                text: 'Balita'
-
+            
         BoxLayout:
             orientation: 'horizontal'
             size_hint: None, None
@@ -277,130 +244,4 @@
                 background_color: 1, 1, 1, 0
                 color: 0, 0, 0, 1
                 on_release: root.daftar_balita()
-
-<AddLansiaScreen>
-    name: 'addlansia'
-
-    BoxLayout:
-        orientation: 'vertical'
-        padding: [50, 0, 50, 80]
-        spacing: 10
-        canvas.before:
-            Color:
-                rgba: 1, 1, 1, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
-
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: '50dp'
-            padding: '5dp'
-            canvas.before:
-                Color:
-                    rgba: 0.8, 0.8, 0.8, 1  # Warna abu-abu
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
-                    radius: [10, 10, 10, 10]
-
-            Button:
-                text: '<'  # Tanda panah kiri
-                size_hint: None, None
-                width: '50dp'
-                height: '40dp'
-                background_normal: ''
-                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
-                color: 1, 1, 1, 1  # Warna teks
-                on_press: app.root.current = 'home'
-
-            Label:
-                text: 'pendaftaran'
-                size_hint: 1, None
-                height: '40dp'
-                font_size: '20sp'
-                bold: True
-                color: 0.1, 0.1, 0.1, 1  # Warna teks
-
-            Button:
-                text: '⋮'  # Tiga titik vertikal
-                size_hint: None, None
-                width: '50dp'
-                height: '40dp'
-                background_normal: ''
-                background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
-                color: 1, 1, 1, 1  # Warna teks
-
-        Widget:
-            size_hint_x: 0.08
-
-        Label:
-            text: 'Isi\nData Lansia'
-            font_size: '24sp'
-            bold: True
-            halign: 'center'
-            valign: 'middle'
-            color: 0 , 0 , 0 , 1
-            size_hint: 1, None
-        TextInput:
-            id: tinggiBadan
-            hint_text: 'Tinggi Badan'
-            size_hint_y: None
-            background_color: 1, 1, 1, 0
-            foreground_color: 0, 0, 0, 1
-            height: 40
-        TextInput:
-            id: beratBadan
-            hint_text: 'Berat Badan'
-            size_hint_y: None
-            background_color: 1, 1, 1, 0
-            height: 40
-        TextInput:
-            id: tekananDarah
-            hint_text: 'Tekanan  Darah'
-            size_hint_y: None
-            background_color: 1, 1, 1, 0
-            height: 40
-        TextInput:
-            id: kadarGula
-            hint_text: 'Kadar gula darah'
-            size_hint_y: None
-            background_color: 1, 1, 1, 0
-            height: 40
-        TextInput:
-            id: kolestrol
-            hint_text: 'Kolestrol'
-            size_hint_y: None
-            background_color: 1, 1, 1, 0
-            height: 40
-        TextInput:
-            id: riwayatPenyakit
-            hint_text: 'Riwayat Penyakit'
-            size_hint_y: None
-            background_color: 1, 1, 1, 0
-            height: 40
-
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint: None, None
-            size: 280, 40
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            spacing: -120
-            canvas.before:
-                Color:
-                    rgba: 1, 0.8, 0, 1
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [20]
-            Button:
-                size_hint_y: None
-                pos_hint: {'center_y': 0.5, 'center_x': 0.5}
-                height: 50
-                text: "Daftar Sekarang"
-                background_normal: ''
-                background_color: 1, 1, 1, 0
-                color: 0, 0, 0, 1
-                on_release: root.daftar_lansia()  # Panggil metode daftar_lansia
 

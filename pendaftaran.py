@@ -8,6 +8,7 @@ from kivy.lang import Builder
 import os
 import pyrebase
 from kivy.properties import ObjectProperty
+from datetime import datetime
 
 firebaseConfig = {
     "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
@@ -16,7 +17,9 @@ firebaseConfig = {
     "projectId": "kesehatan-masyarakat", 
     "storageBucket": "kesehatan-masyarakat.appspot.com",
     "messagingSenderId": "366757069189",
-    "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+    "appId": "1:366757069189:web:44b18a06d3b38b862584ec",
+    "measurementId": "G-W29SS10Z7Q"
+
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -43,32 +46,7 @@ class AddBalitaScreen(Screen):
         db.child("data_balita").push(data)
         print("Data balita has been saved to Firebase.")
 
-class AddLansiaScreen(Screen):
-    def daftar_lansia(self):
-        tinggi = self.ids.tinggiBadan.text
-        berat = self.ids.beratBadan.text
-        tekanan = self.ids.tekananDarah.text
-        gula = self.ids.kadarGula.text
-        kolesterol = self.ids.kolestrol.text
-        riwayat = self.ids.riwayatPenyakit.text
-
-        # Data untuk disimpan
-        data = {
-            'tinggi_badan': tinggi,
-            'berat_badan': berat,
-            'tekanan_darah': tekanan,
-            'gula_darah': gula,
-            'kolestrol': kolesterol,
-            'riwayat_penyakit': riwayat
-        }
-
-        # Simpan ke Firebase
-        app = App.get_running_app()
-        app.db.child("data_lansia").push(data)  # Simpan ke Realtime Database
-
 class DaftarScreen(Screen):
-    lansia_checkbox = ObjectProperty(None)
-    balita_checkbox = ObjectProperty(None)
 
     def go_to_next_screen(self):
         # Ambil data input dari pengguna
@@ -89,12 +67,11 @@ class DaftarScreen(Screen):
         }
 
         # Tentukan jalur penyimpanan di Firebase berdasarkan kategori
-        if self.lansia_checkbox.active:
-            App.get_running_app().firebase_db.child("lansia").push(data)
-            self.manager.current = "addlansia"
-        elif self.balita_checkbox.active:
-            App.get_running_app().firebase_db.child("balita").push(data)
-            self.manager.current = "addbalita"
+        # Dalam hal ini, kita hanya menyimpan ke "balita" tanpa cek kategori
+        App.get_running_app().firebase_db.child("balita").push(data)
+
+        # Navigasi ke layar addbalita
+        self.manager.current = "addbalita"
         
     def submit_form(self):
         # Ambil data dari form input

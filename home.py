@@ -13,13 +13,14 @@ from kivy.properties import ObjectProperty
 from kivy.properties import ListProperty
 
 firebaseConfig = {
-            "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
-            "authDomain": "kesehatan-masyarakat.firebaseapp.com",
-            "databaseURL": "https://kesehatan-masyarakat-default-rtdb.firebaseio.com",
-            "projectId": "kesehatan-masyarakat", 
-            "storageBucket": "kesehatan-masyarakat.appspot.com",
-            "messagingSenderId": "366757069189",
-            "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+    "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
+    "authDomain": "kesehatan-masyarakat.firebaseapp.com",
+    "databaseURL": "https://kesehatan-masyarakat-default-rtdb.firebaseio.com",
+    "projectId": "kesehatan-masyarakat", 
+    "storageBucket": "kesehatan-masyarakat.appspot.com",
+    "messagingSenderId": "366757069189",
+    "appId": "1:366757069189:web:44b18a06d3b38b862584ec",
+    "measurementId": "G-W29SS10Z7Q"
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -31,6 +32,9 @@ Config.set('graphics', 'width', '360')
 Config.set('graphics', 'height', '640')
 Config.set('graphics', 'resizable', False)
 
+class MyScreenManager(ScreenManager):
+    pass
+
 class HomeApp(Screen):
     def on_enter(self):
         self.fetch_data()
@@ -41,28 +45,45 @@ class HomeApp(Screen):
             # Hapus data lama di RecycleView
             self.ids.recycle_view.data = []
 
-            # Mengambil data dari tabel lansia
-            data_lansia = db.child("lansia").get().val()
-            if data_lansia:
-                for key, value in data_lansia.items():
-                    item = {
-                        'nama': value.get('nama', ''),
-                        'kategori': 'Lansia',
-                    }
-                    self.ids.recycle_view.data.append(item)
+            # Mengambil data pasien berdasarkan nama dari tabel 'balita'
+            data_balita = db.child("data_balita").order_by_child("nama").get().val()
 
-            # Mengambil data dari tabel balita
-            data_balita = db.child("balita").get().val()
             if data_balita:
                 for key, value in data_balita.items():
                     item = {
                         'nama': value.get('nama', ''),
                         'kategori': 'Balita',
                     }
+                    # Menambahkan item ke data recycle_view
                     self.ids.recycle_view.data.append(item)
+            else:
+                print("Data balita tidak ditemukan.")
         else:
             print("ID recycle_view tidak ditemukan di ids.")
+            
+        user_id = App.get_running_app().get_current_user_id()
+        
+        if user_id:
+            nomor_antrian = db.child("nomor_antrian").child(user_id).get().val() or []
+            self.update_queue_label(nomor_antrian)
+        else:
+            self.ids.home_queue_label.text = "User tidak ditemukan."
 
+        # perbaikan pembacaan berdasarkan nama di tabel
+    # def display_queue(self, queue_number):
+    #     print("antrian:", queue_number)
+    #     if queue_number:
+    #         self.ids.queue_label_1.text = queue_number
+    #     else:
+    #         print("antrian tidak tersedia")
+    #         sself.ids.queue_label_1.text = "antrian tidak tersedia"
+    def update_queue_label(self, nomor_antrian):
+        if nomor_antrian:
+            self.ids.home_queue_label.text = "\n".join(nomor_antrian)
+        else:
+            self.ids.home_queue_label.text = "Belum ada nomor antrean yang diambil."
+            
+            
 class ClickableImage(ButtonBehavior, Image):
     pass
 
@@ -86,12 +107,13 @@ class ClickBox(ButtonBehavior, RecycleDataViewBehavior, BoxLayout):
 
         # Menentukan layar yang akan dituju berdasarkan kategori
         app = App.get_running_app()
-        if self.kategori == 'Lansia':
-            data_screen = app.root.get_screen('data')
-            app.root.current = 'data'
-        elif self.kategori == 'Balita':
+        if self.kategori == 'Balita':
             data_screen = app.root.get_screen('databalita')
             app.root.current = 'databalita'
+        elif self.kategori == 'Lansia':
+            data_screen = app.root.get_screen('data')
+            app.root.current = 'data'
+
 
         # Mengirim data ke layar detail yang sesuai
         data_screen.update_data(selected_data)
@@ -106,7 +128,42 @@ class UserApp(App):
     def update_recycleview(self):
         # Update RecycleView dengan data terbaru
         self.root.ids.recycle_view.data = self.data
-          
+    
+    def on_enter(self):
+        self.fetch_data()  # Mengambil data pasien untuk RecycleView
+        self.fetch_queue_data()  # Mengambil nomor antrian dan menampilkannya
+
+    def fetch_data(self):
+        # Memastikan id recycle_view ada di ids
+        if 'recycle_view' in self.ids:
+            # Hapus data lama di RecycleView
+            self.ids.recycle_view.data = []
+
+            data_balita = db.child("balita").get().val()
+            if data_balita:
+                for key, value in data_balita.items():
+                    item = {
+                        'nama': value.get('nama', ''),
+                        'kategori': 'Balita',
+                    }
+                    self.ids.recycle_view.data.append(item)
+        else:
+            print("ID recycle_view tidak ditemukan di ids.")
+
+    def fetch_queue_data(self):
+        user_id = self.get_current_user_id()  # Mendapatkan ID pengguna saat ini
+        if user_id:
+            nomor_antrian = db.child("nomor_antrian").child(user_id).get().val() or []
+            if nomor_antrian:
+                self.update_queue_display(nomor_antrian)  # Memperbarui label dengan nomor antrian
+            else:
+                self.ids.home_queue_label.text = "Anda belum mengambil antrian."
+        else:
+            self.ids.home_queue_label.text = "User tidak ditemukan."
+
+    def get_current_user_id(self):
+        user = auth.current_user
+        return user['localId'] if user else None     
 
 if __name__ == '__main__':
     UserApp().run()

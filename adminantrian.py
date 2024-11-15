@@ -5,7 +5,7 @@ from kivy.uix.checkbox import CheckBox
 from kivy.uix.scrollview import ScrollView
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import ScreenManager, Screen
 import os
 import pyrebase
 
@@ -16,7 +16,8 @@ firebaseConfig = {
     "projectId": "kesehatan-masyarakat", 
     "storageBucket": "kesehatan-masyarakat.appspot.com",
     "messagingSenderId": "366757069189",
-    "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+    "appId": "1:366757069189:web:44b18a06d3b38b862584ec",
+    "measurementId": "G-W29SS10Z7Q"
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -24,6 +25,8 @@ auth = firebase.auth()
 db = firebase.database()
 
 
+class MyScreenManager(ScreenManager):
+    pass
 
 class AdminAntrianScreen(Screen):
     def on_enter(self):

@@ -8,29 +8,30 @@ from kivy.uix.image import Image
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.core.window import Window
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ListProperty
 from kivy.properties import StringProperty
 from kivy.properties import ObjectProperty
-from kivy.properties import ListProperty
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivyauth.google_auth import initialize_google, login_google, logout_google
+from kivy.clock import Clock
+# Screen
+from home import HomeApp, UserApp
+from datauser import UserList, UserApp
+from antrian import QueueScreen, QueueApp
+from admin import AdminApp, AdminScreen
+from profil import ProfilApp, ProfilScreen
+from datapasien import PatientList, PatientApp, PatientItem, EditPatientScreen
+from databalita import DatabalitaScreen, DatabalitaApp
+# from datalansia import DataLansiaScreen, DataLansiaApp
 from login import LoginScreen, LoginSecondScreen, HealthApp
 from registrasi import RegistrationScreen, RegistrationApp
-from admin import AdminApp, AdminScreen
-from imunisasi import ImunisasiApp, ImunisasiScreen, RiwayatImunScreen, DaftarbalitaScreen
-from profil import ProfilApp, ProfilScreen
-from home import HomeApp, UserApp
-from databalita import DatabalitaScreen, DatabalitaApp
-from datalansia import DataLansiaScreen, DataLansiaApp
-from pendaftaran import AddBalitaScreen, AddLansiaScreen, DaftarScreen, daftarApp
-from antrian import QueueScreen, QueueApp
 from adminantrian import AdminAntrianApp, AdminAntrianScreen
-from datapasien import PatientList, PatientApp
-from datauser import UserList, UserApp
-
+from pendaftaran import AddBalitaScreen, DaftarScreen, daftarApp
+from imunisasi import ImunisasiApp, ImunisasiScreen, RiwayatImunScreen
 # Firebase configuration
 firebaseConfig = {
     "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
@@ -39,7 +40,8 @@ firebaseConfig = {
     "projectId": "kesehatan-masyarakat", 
     "storageBucket": "kesehatan-masyarakat.appspot.com",
     "messagingSenderId": "366757069189",
-    "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+    "appId": "1:366757069189:web:44b18a06d3b38b862584ec",
+    "measurementId": "G-W29SS10Z7Q"
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -55,18 +57,6 @@ class BoxRounded(BoxLayout):
 
 class ClickableImage(ButtonBehavior, Image):
     pass
-
-class MyScreenManager(ScreenManager):
-    pass
-
-class Balitalist(BoxLayout):
-    name = StringProperty()
-    category = StringProperty()
-    
-    def go_to_imunisasi(self):
-        # Arahkan ke screen imunisasi
-        app = App.get_running_app()
-        app.root.current = 'imun'
 
 class ClickBox(ButtonBehavior, RecycleDataViewBehavior, BoxLayout):
     nama = StringProperty("")
@@ -88,45 +78,50 @@ class ClickBox(ButtonBehavior, RecycleDataViewBehavior, BoxLayout):
 
         # Menentukan layar yang akan dituju berdasarkan kategori
         app = App.get_running_app()
-        if self.kategori == 'Lansia':
-            data_screen = app.root.get_screen('data')
-            app.root.current = 'data'
-        elif self.kategori == 'Balita':
+        if self.kategori == 'Balita':
             data_screen = app.root.get_screen('databalita')
             app.root.current = 'databalita'
+        elif self.kategori == 'Lansia':
+            data_screen = app.root.get_screen('data')
+            app.root.current = 'data'
+            
+            
 
         # Mengirim data ke layar detail yang sesuai
         data_screen.update_data(selected_data)
 
-class PatientItem(BoxLayout):
-    name = StringProperty()
-    category = StringProperty()
-
-    def __init__(self, name, category, **kwargs):
-        super(PatientItem, self).__init__(**kwargs)
-        self.name = name
-        self.category = category
-        
-class UserItem(BoxLayout):
-    name = StringProperty()
-    category = StringProperty()
-
-    def __init__(self, name, category, **kwargs):
-        super(UserItem, self).__init__(**kwargs)
-        self.name = name
-        self.category = category
-
 class MyApp(App):
     def build(self):
-        kv_files = ['main.kv', 'home.kv', 'login.kv', 'registrasi.kv', 'admin.kv','antrian.kv',
-                    'datalansia.kv','pendaftaran.kv','datapasien.kv','datauser.kv','imunisasi.kv',
-                    'databalita.kv','adminantrian.kv', 'profil.kv']
+        kv_files = ['main.kv','admin.kv','adminantrian.kv','antrian.kv','databalita.kv','home.kv','imunisasi.kv','login.kv','pendaftaran.kv','profil.kv','registrasi.kv']  # List more .kv files as needed
         for kv_file in kv_files:
             kv_file_path = os.path.join(os.path.dirname(__file__), 'kv', kv_file)
             Builder.load_file(kv_file_path)
-            client_id = open("json/client_id.txt")
-            client_secret = open("json/client_secret.txt")
-            initialize_google(self.after_login, self.error_listener, client_id.read(), client_secret.read())
+        # Buat ScreenManager dan tambahkan layar
+        self.sm = ScreenManager()
+        self.sm.add_widget(LoginScreen(name='page_one'))
+        self.sm.add_widget(LoginSecondScreen(name='page_two'))
+        self.sm.add_widget(HomeApp(name='home'))
+        self.sm.add_widget(RegistrationScreen(name='registrasi'))
+        self.sm.add_widget(AdminScreen(name='admin'))
+        self.sm.add_widget(QueueScreen(name='antrian'))
+        self.sm.add_widget(DaftarScreen(name='daftar'))
+        self.sm.add_widget(PatientList(name='pasien'))
+        self.sm.add_widget(UserList(name='datauser'))
+        self.sm.add_widget(ImunisasiScreen(name='imun'))
+        self.sm.add_widget(DatabalitaScreen(name='databalita'))
+        self.sm.add_widget(AdminAntrianScreen(name='admantrian'))
+        self.sm.add_widget(RiwayatImunScreen(name='riwayatimun'))
+        self.sm.add_widget(AddBalitaScreen(name='addbalita'))
+        self.sm.add_widget(ProfilScreen(name='profil'))
+        self.sm.add_widget(EditPatientScreen(name='edit_patient'))
+
+        # Set layar awal ke login
+        self.sm.current = 'page_two'
+        
+        
+        client_id = open("json/client_id.txt")
+        client_secret = open("json/client_secret.txt")
+        initialize_google(self.after_login, self.error_listener, client_id.read(), client_secret.read())
             
         firebaseConfig = {
             "apiKey": "AIzaSyBtXAFglMuV2PN2hAS6mEYPyFU6H_qSBEQ",
@@ -135,12 +130,14 @@ class MyApp(App):
             "projectId": "kesehatan-masyarakat", 
             "storageBucket": "kesehatan-masyarakat.appspot.com",
             "messagingSenderId": "366757069189",
-            "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+            "appId": "1:366757069189:web:44b18a06d3b38b862584ec",
+            "measurementId": "G-W29SS10Z7Q"
+
         }
         firebase = pyrebase.initialize_app(firebaseConfig)
         self.db = firebase.database()
         self.firebase_db = firebase.database()
-        return MyScreenManager()
+        return self.sm
 
     def after_login(self, name, email, photo_uri):
         account_screen = self.root.get_screen('page_one')  # Mendapatkan instance AccountScreen
@@ -165,23 +162,40 @@ class MyApp(App):
     def login(self, email, password):
         try:
             user = auth.sign_in_with_email_and_password(email, password)
-            login_screen = self.root.get_screen('page_two')
-            login_screen.user = user
-            id_token = user['idToken']
-            users_ref = db.child("users").child(user['localId']).get(token=id_token)
-            if users_ref.val():
-                user_data = users_ref.val()
-                role = user_data.get("role")
-                if role == "admin":
-                    self.root.current = 'admin'
-                elif role == "user":
-                    self.root.current = 'home'
+            if user:
+                app = App.get_running_app()
+                app.user_id = user['localId']
+                app.id_token = user['idToken']
+
+                # Ambil data pengguna
+                users_ref = db.child("users").child(app.user_id).get(token=app.id_token)
+                if users_ref.val():
+                    user_data = users_ref.val()
+                    name = user_data.get("name", "Nama tidak ada")
+                    email = user_data.get("email", "Email tidak ada")
+                    
+                    # Tampilkan data pengguna setelah sedikit penundaan untuk memastikan layar profil siap
+                    Clock.schedule_once(lambda dt: self.update_profil_screen(name, email))
+                    
+                    # Navigasi berdasarkan role
+                    role = user_data.get("role")
+                    if role == "admin":
+                        self.root.current = 'admin'
+                    elif role == "user":
+                        self.root.current = 'profil'
+                    else:
+                        print("Role tidak ditemukan")
                 else:
-                    Popup(title='Error', content=Label(text='Role not found'), size_hint=(None, None), size=(400, 200)).open()
+                    print("Data pengguna tidak ditemukan.")
             else:
-                Popup(title='Error', content=Label(text='User data not found'), size_hint=(None, None), size=(400, 200)).open()
+                raise Exception("Login gagal, data pengguna tidak ditemukan.")
         except Exception as e:
-            Popup(title='Login Error', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200)).open()
+            print("Login Error:", e)
+
+    def update_profil_screen(self, name, email):
+        profil_screen = self.root.get_screen('profil')
+        profil_screen.display_name(name)
+        profil_screen.display_email(email)
 
     def register(self, name, email, password, role):
         try:
@@ -220,7 +234,11 @@ class MyApp(App):
 
     def update_recycleview(self):
         # Update RecycleView dengan data terbaru
-        self.root.ids.recycle_view.data = self.data    
+        self.root.ids.recycle_view.data = self.data  
+    
+    def get_current_user_id(self):
+        user = auth.current_user
+        return user['localId'] if user else None   
 
 if __name__ == '__main__':
     MyApp().run()

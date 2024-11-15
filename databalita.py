@@ -15,7 +15,8 @@ firebaseConfig = {
     "projectId": "kesehatan-masyarakat", 
     "storageBucket": "kesehatan-masyarakat.appspot.com",
     "messagingSenderId": "366757069189",
-    "appId": "1:366757069189:web:44b18a06d3b38b862584ec"
+    "appId": "1:366757069189:web:44b18a06d3b38b862584ec",
+    "measurementId": "G-W29SS10Z7Q"
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -23,6 +24,9 @@ auth = firebase.auth()
 db = firebase.database()
 
 Window.size = (360, 640)
+
+class MyScreenManager(ScreenManager):
+    pass
 
 class DatabalitaApp(App):
     def build(self):
@@ -38,12 +42,12 @@ class DatabalitaScreen(Screen):
         data_balita = db.child("data_balita").get().val()
         if data_balita:
             # Display data, assuming only one entry is needed
-            latest_data = list(data_balita.values())[-1]
-            self.ids.tinggi_badan_label.text = f"Tinggi Badan: {latest_data['tinggi_badan']}"
-            self.ids.berat_badan_label.text = f"Berat Badan: {latest_data['berat_badan']}"
-            self.ids.lingkar_lengan_label.text = f"Lingkar Lengan Atas: {latest_data['lingkar_lengan']}"
-            self.ids.lingkar_kepala_label.text = f"Lingkar Kepala: {latest_data['lingkar_kepala']}"
-            self.ids.riwayat_penyakit_label.text = f"Riwayat Penyakit: {latest_data['riwayat_penyakit']}"
+            selected_data = list(data_balita.values())[-1]
+            self.ids.tinggi_badan_label.text = f"Tinggi Badan: {selected_data['tinggi_badan']}"
+            self.ids.berat_badan_label.text = f"Berat Badan: {selected_data['berat_badan']}"
+            self.ids.lingkar_lengan_label.text = f"Lingkar Lengan Atas: {selected_data['lingkar_lengan']}"
+            self.ids.lingkar_kepala_label.text = f"Lingkar Kepala: {selected_data['lingkar_kepala']}"
+            self.ids.riwayat_penyakit_label.text = f"Riwayat Penyakit: {selected_data['riwayat_penyakit']}"
             
     def update_data(self, data):
         self.ids.labelNama.text = f" {data.get('nama', '')}"

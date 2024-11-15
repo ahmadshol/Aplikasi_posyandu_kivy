@@ -52,24 +52,31 @@
                 background_color: 0.6, 0.6, 0.6, 1  # Warna abu-abu
                 color: 1, 1, 1, 1  # Warna teks
 
-        Spinner:
-            id: category_spinner
-            text: "All"
-            values: ["All", "Lansia", "Balita"]
-            size_hint: (1, None)
-            height: 50
-            on_text: root.update_patient_list(self.text)
-
         ScrollView:
+            size_hint_y: 1
             BoxLayout:
                 id: patient_layout
                 orientation: 'vertical'
                 size_hint_y: None
                 padding: [0, 10]
+                spacing: 10
                 height: self.minimum_height
 
-<PatientItem>:
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'bottom'
+            Button:
+                text: '+'
+                size_hint: None, None
+                size: '50dp', '50dp'
+                background_normal: ''
+                background_color: 0.2, 0.6, 0.4, 1
+                color: 1, 1, 1, 1
+                font_size: '40dp' 
+                on_press: app.root.current = 'addbalita'
 
+<PatientItem>:
+    name: 'patient_item'
     orientation: 'horizontal'
     size_hint_y: None
     height: 80
@@ -78,7 +85,7 @@
 
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1  # White background
+            rgba: 1, 1, 1, 1  # Background putih
         RoundedRectangle:
             pos: self.pos
             size: self.size
@@ -100,3 +107,74 @@
             text: root.category
             font_size: 16
             color: 0, 0, 0, 1
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_x: None
+        width: '120dp'
+        spacing: 5
+
+        Button:
+            text: 'Edit'
+            size_hint: None, None
+            size: '60dp', '40dp'
+            background_normal: ''
+            background_color: 0.2, 0.4, 0.6, 1
+            color: 1, 1, 1, 1
+            on_press:
+                root.edit_data()
+
+        Button:
+            text: 'Hapus'
+            size_hint: None, None
+            size: '60dp', '40dp'
+            background_normal: ''
+            background_color: 0.8, 0.2, 0.2, 1
+            color: 1, 1, 1, 1
+            on_press:
+                root.delete_data()
+
+<EditPatientScreen>:
+    name: "edit_patient"
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: "Edit Data Pasien"
+            font_size: 24
+            bold: True
+            color: 0, 0, 0, 1
+            size_hint_y: None
+            height: 40
+
+        TextInput:
+            id: name_input
+            hint_text: "Nama Pasien"
+            text: root.name 
+            font_size: 18
+            multiline: False
+
+        TextInput:
+            id: category_input
+            hint_text: "Kategori"
+            text: root.category if root.category else ""
+            font_size: 18
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 50
+            spacing: 10
+
+            Button:
+                text: "Simpan"
+                background_normal: ''
+                background_color: 0.2, 0.6, 0.2, 1
+                on_press: root.save_changes()
+            Button:
+                text: "Batal"
+                background_normal: ''
+                background_color: 0.6, 0.2, 0.2, 1
+                on_press: app.root.current = "pasien" 

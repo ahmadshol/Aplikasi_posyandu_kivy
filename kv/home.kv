@@ -70,7 +70,7 @@
                     orientation: 'vertical'
                     ClickableImage:
                         source: 'img/imun 1.png' 
-                        on_press: app.root.current = 'listbalita'
+                        on_press: app.root.current = 'imun'
                         size_hint: None, None
                         size: '40dp', '40dp'
                         allow_stretch: True  # Ensure the image stretches
@@ -109,7 +109,7 @@
                         halign: 'center'
                         color: 0, 0, 0, 1
 
-            # Section for "Konsultasi dengan spesialis"
+            # Section for displaying queue number
             BoxLayout:
                 orientation: 'horizontal'
                 padding: '10dp'
@@ -123,23 +123,22 @@
                         size: self.size
                         pos: self.pos
                         radius: [10,]
-                Image:
-                    source: 'img/konsultasi.png'
-                    size_hint_x: None
-                    width: '40dp'
-                    allow_stretch: True
                 Label:
-                    text: 'Konsultasi dengan spesialis'
+                    text: 'Nomor Antrian:'
                     font_size: '16dp'
-                    bold: True
                     color: 0, 0, 0, 1
-                Button:
-                    text: '>'
-                    size_hint_x: None
-                    width: '30dp'
-                    background_color: (0, 0.5, 1, 1)
-                    color: 1, 1, 1, 1
-            
+                Label:
+                    id: home_queue_label
+                    # text: 'Belum ada antrian yang diambil.'
+                    font_size: 16
+                    color: 0.2, 0.2, 0.4, 1
+                    size_hint_y: None
+                    height: self.texture_size[1] + 10
+                    text_size: self.width, None
+                # Button:
+                #     text: "Refresh"
+                #     on_press: root.fetch_queue_data()
+                            
         BoxLayout:
             orientation: 'vertical'
             spacing: 10

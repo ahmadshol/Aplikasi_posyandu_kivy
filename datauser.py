@@ -4,11 +4,17 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import StringProperty
 from kivy.lang import Builder
 from kivy.core.window import Window
+from kivy.uix.screenmanager import ScreenManager, Screen
+
 
 Window.size = (360, 640)
 
 # Load the KV file
 Builder.load_file("kv/datauser.kv")
+
+
+class MyScreenManager(ScreenManager):
+    pass
 
 class UserItem(BoxLayout):
     name = StringProperty()
