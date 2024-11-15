@@ -51,7 +51,7 @@
                     pos: self.pos
 
             GridLayout:
-                cols: 4
+                cols: 3
                 padding: '10dp'
                 spacing: '5dp'
                 size_hint_y: None
@@ -103,20 +103,6 @@
                         size_hint_x: 1
                     Label:
                         text: 'Set Antrian'
-                        font_size: '12dp'
-                        halign: 'center'
-                        color: 0, 0, 0, 1
-                BoxLayout:
-                    orientation: 'vertical'
-                    ClickableImage:
-                        source: 'img/imun 1.png' 
-                        on_press: app.root.current = 'imun'
-                        size_hint: None, None
-                        size: '40dp', '40dp'
-                        allow_stretch: True  # Ensure the image stretches
-                        size_hint_x: 1
-                    Label:
-                        text: 'Imunisasi'
                         font_size: '12dp'
                         halign: 'center'
                         color: 0, 0, 0, 1

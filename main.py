@@ -20,13 +20,12 @@ from kivyauth.google_auth import initialize_google, login_google, logout_google
 from kivy.clock import Clock
 # Screen
 from home import HomeApp, UserApp
-from datauser import UserList, UserApp
+from datauser import UserList, UserApp, EditUserScreen
 from antrian import QueueScreen, QueueApp
 from admin import AdminApp, AdminScreen
 from profil import ProfilApp, ProfilScreen
 from datapasien import PatientList, PatientApp, PatientItem, EditPatientScreen
 from databalita import DatabalitaScreen, DatabalitaApp
-# from datalansia import DataLansiaScreen, DataLansiaApp
 from login import LoginScreen, LoginSecondScreen, HealthApp
 from registrasi import RegistrationScreen, RegistrationApp
 from adminantrian import AdminAntrianApp, AdminAntrianScreen
@@ -114,6 +113,7 @@ class MyApp(App):
         self.sm.add_widget(AddBalitaScreen(name='addbalita'))
         self.sm.add_widget(ProfilScreen(name='profil'))
         self.sm.add_widget(EditPatientScreen(name='edit_patient'))
+        self.sm.add_widget(EditUserScreen(name='edit_user'))
 
         # Set layar awal ke login
         self.sm.current = 'page_two'
@@ -239,6 +239,17 @@ class MyApp(App):
     def get_current_user_id(self):
         user = auth.current_user
         return user['localId'] if user else None   
+
+    def on_pre_enter(self):
+        self.update_user_list()
+
+    def update_user_list(self):
+        self.ids.user_layout.clear_widgets()
+        users = db.child("users").get().val()
+        if users:
+            for user_id, user_data in users.items():
+                user_box = UserItem(user_id=user_id, name=user_data["name"], email=user_data["email"])
+                self.ids.user_layout.add_widget(user_box)
 
 if __name__ == '__main__':
     MyApp().run()

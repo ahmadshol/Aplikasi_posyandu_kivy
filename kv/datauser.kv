@@ -89,6 +89,31 @@
             color: 0, 0, 0, 1
             bold: True
         Label:
-            text: root.category
+            text: root.email
             font_size: 16
             color: 0, 0, 0, 1
+        Button:
+            text: "Edit"
+            size_hint_x: 0.1
+            on_press: root.edit_user()
+        Button:
+            text: "Delete"
+            size_hint_x: 0.1
+            on_press: root.delete_user()
+
+
+<EditUserScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        TextInput:
+            id: name_input
+            hint_text: "Name"
+        TextInput:
+            id: email_input
+            hint_text: "Email"
+        Button:
+            text: "Save"
+            on_press: root.save_user()
+        Button:
+            text: "Back"
+            on_press: app.root.current = "user_list"
