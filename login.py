@@ -131,7 +131,7 @@ class HealthApp(App):
         self.root.ids.label.text = ""
         self.root.ids.transition.direction = "right"
         self.root.current = "page_one"
-        
+
     def login(self, email, password):
         try:
             # Proses login Firebase Authentication
@@ -144,12 +144,20 @@ class HealthApp(App):
                 if users_ref.val():
                     user_data = users_ref.val()
                     name = user_data.get("name")
-                    print("name:", name)
                     email = user_data.get("email")
-                    print ("email:", email)
-                    print("Data pengguna:", user_data)
                     role = user_data.get("role")
                     
+                    # Menampilkan popup setelah login berhasil
+                    popup_content = f"Login berhasil!\n\nNama: {name}\nEmail: {email}"
+                    success_popup = Popup(
+                        title="Login Berhasil",
+                        content=Label(text=popup_content),
+                        size_hint=(None, None),
+                        size=(400, 200)
+                    )
+                    success_popup.open()
+
+                    # Navigasi berdasarkan role
                     if role == "admin":
                         self.root.current = 'admin'
                     elif role == "user":
@@ -162,7 +170,7 @@ class HealthApp(App):
                 raise Exception("Login gagal, data pengguna tidak ditemukan.")
         except Exception as e:
             Popup(title='Login Error', content=Label(text=str(e)), size_hint=(None, None), size=(400, 200)).open()
-            
+
     def register(self, name, email, password, role):
         try:
             user = auth.create_user_with_email_and_password(email, password)

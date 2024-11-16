@@ -99,11 +99,21 @@
                 height: self.texture_size[1] + 15
                 text_size: self.width, None
 
+            Label:
+                id: remaining_queue_label
+                text: "Sisa Antrian: 0"
+                font_size: 18
+                color: 0.3, 0.3, 0.3, 1
+                halign: "center"
+                valign: "middle"
+                size_hint_y: None
+                height: self.texture_size[1] + 10
+
             Button:
-                text: "Ke Halaman Admin"
+                text: "Refresh Sisa Antrian"
                 font_size: 20
                 size_hint_y: None
-                height: 55
-                background_color: 0.15, 0.45, 0.85, 1  # Biru gelap untuk variasi tombol sekunder
+                height: 50
+                background_color: 0.2, 0.6, 1, 1
                 color: 1, 1, 1, 1
-                on_release: app.root.current = "admin"
+                on_release: root.show_remaining_queue()

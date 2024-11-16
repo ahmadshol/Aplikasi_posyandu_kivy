@@ -116,7 +116,7 @@ class MyApp(App):
         self.sm.add_widget(EditUserScreen(name='edit_user'))
 
         # Set layar awal ke login
-        self.sm.current = 'page_two'
+        self.sm.current = 'page_one'
         
         
         client_id = open("json/client_id.txt")
@@ -177,12 +177,21 @@ class MyApp(App):
                     # Tampilkan data pengguna setelah sedikit penundaan untuk memastikan layar profil siap
                     Clock.schedule_once(lambda dt: self.update_profil_screen(name, email))
                     
+                    popup_content = f"Selamat datang {name}"
+                    success_popup = Popup(
+                        title="Login Berhasil",
+                        content=Label(text=popup_content),
+                        size_hint=(None, None),
+                        size=(400, 200)
+                    )
+                    success_popup.open()
+                    
                     # Navigasi berdasarkan role
                     role = user_data.get("role")
                     if role == "admin":
                         self.root.current = 'admin'
                     elif role == "user":
-                        self.root.current = 'profil'
+                        self.root.current = 'home'
                     else:
                         print("Role tidak ditemukan")
                 else:

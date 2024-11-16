@@ -86,7 +86,11 @@ class QueueScreen(Screen):
         else:
             self.ids.queue_label.text = "Anda sudah mengambil 2 antrian."
 
-
+    def show_remaining_queue(self):
+        # Menampilkan sisa antrian di admin
+        remaining_count = db.child("queue/count").get().val()
+        self.ids.remaining_queue_label.text = f"Sisa Antrian: {remaining_count}"
+    
     def update_home_queue_label(self, nomor_antrian):
         home_screen = self.root.get_screen('home')
         home_screen.update_queue_label(nomor_antrian)

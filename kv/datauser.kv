@@ -92,14 +92,32 @@
             text: root.email
             font_size: 16
             color: 0, 0, 0, 1
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_x: None
+        width: '120dp'
+        spacing: 5
+
         Button:
-            text: "Edit"
-            size_hint_x: 0.1
-            on_press: root.edit_user()
+            text: 'Edit'
+            size_hint: None, None
+            size: '60dp', '40dp'
+            background_normal: ''
+            background_color: 0.2, 0.4, 0.6, 1
+            color: 1, 1, 1, 1
+            on_press:
+                root.edit_user()
+
         Button:
-            text: "Delete"
-            size_hint_x: 0.1
-            on_press: root.delete_user()
+            text: 'Hapus'
+            size_hint: None, None
+            size: '60dp', '40dp'
+            background_normal: ''
+            background_color: 0.8, 0.2, 0.2, 1
+            color: 1, 1, 1, 1
+            on_press:
+                root.delete_user()
 
 
 <EditUserScreen>:
@@ -116,4 +134,4 @@
             on_press: root.save_user()
         Button:
             text: "Back"
-            on_press: app.root.current = "user_list"
+            on_press: app.root.current = "datauser"

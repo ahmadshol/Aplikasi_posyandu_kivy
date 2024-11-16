@@ -132,3 +132,11 @@
                 background_color: 0.2, 0.6, 1, 1
                 color: 1, 1, 1, 1
                 on_release: root.show_remaining_queue()
+
+            TextInput:
+                id: queue_to_delete_input
+                hint_text: "Masukkan nomor antrian"
+            Button:
+                text: "Hapus Antrian"
+                on_press: root.delete_nomor_antrian(root.ids.queue_to_delete_input.text)
+

@@ -55,6 +55,26 @@ class AdminAntrianScreen(Screen):
         # Menampilkan sisa antrian di admin
         remaining_count = db.child("queue/count").get().val()
         self.ids.remaining_queue_label.text = f"Sisa Antrian: {remaining_count}"
+        
+    def delete_nomor_antrian(self, antrian):
+        """
+        Menghapus nomor antrian tertentu dari tabel nomor_antrian.
+        :param antrian: Nomor antrian yang ingin dihapus
+        """
+        nomor_antrian = db.child("nomor_antrian").get().val()
+        if nomor_antrian:
+            for user_id, queues in nomor_antrian.items():
+                if antrian in queues:
+                    # Hapus nomor antrian dari daftar antrian pengguna
+                    queues.remove(antrian)
+                    # Update perubahan ke database
+                    db.child("nomor_antrian").child(user_id).set(queues if queues else None)
+                    self.ids.taken_queue_label.text = f"Antrian {antrian} berhasil dihapus."
+                    return
+            self.ids.taken_queue_label.text = f"Nomor antrian {antrian} tidak ditemukan."
+        else:
+            self.ids.taken_queue_label.text = "Belum ada antrian yang diambil."
+
             
 class AdminAntrianApp(App):
     def build(self):
