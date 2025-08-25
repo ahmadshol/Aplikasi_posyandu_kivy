@@ -1,8 +1,8 @@
-# Aplikasi Posyandu
+# Aplikasi Posyandu😊
 
 ![kivy](https://img.shields.io/badge/kivy-blue) ![Python](https://img.shields.io/badge/python-3.7-red) 
 
-# Panduan Menjalankan Project Kivy
+# Panduan Menjalankan Project Kivy🏃‍♂️🏃‍♂️🏃‍♂️
 
 Dokumentasi ini akan memandu Anda melalui proses setup dan menjalankan project Kivy dari awal.
 
@@ -27,14 +27,14 @@ Kami sangat merekomendasikan menggunakan virtual environment untuk mengisolasi d
 Langkah 2: Setup Environment Virtual (Rekomendasi)
 Kami sangat merekomendasikan menggunakan virtual environment untuk mengisolasi dependencies project.
 
-# Untuk Windows:
+## Untuk Windows:
 
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
-# Untuk macOS/Linux:
+## Untuk macOS/Linux:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
