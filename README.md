@@ -77,7 +77,7 @@ nama-repo-kivy/
 └── README.md           # Dokumentasi ini
 ```
 
-# Troubleshooting 🚀
+# Troubleshooting ☠
 ## * Error: "No module named 'kivy'"
 Pastikan Anda telah menginstall Kivy dan environment virtual sudah diaktifkan.
 
@@ -122,7 +122,7 @@ sudo apt-get install -y \
 2. cari solusi di [GitHub Issues](https://github.com/username-anda/nama-repo-kivy/issues)
 3. Buat issue baru jika masalah belum terpecahkan
 
-# Kontribusi
+# Kontribusi🤝
 
 Kontribusi selalu diterima! Silakan:
 
@@ -131,3 +131,6 @@ Kontribusi selalu diterima! Silakan:
 3. Commit perubahan Anda (`git commit -m 'Add some AmazingFeature'`)
 4. Push ke branch (`git push origin feature/AmazingFeature`)
 5. Buat Pull Request
+
+---
+Selamat menggunakan sistem penjualan elektronik ini! Jika ada pertanyaan atau masalah, jangan ragu untuk membuat _issue_ di repository ini.
